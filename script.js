@@ -358,7 +358,7 @@ function showResults() {
     }).join(" — ");
 
     // Build interpretation
-    let interpretationHtml = '<h3>YOUR 7-POINT MASCULINE CODE</h3>';
+    let interpretationHtml = '<h3>YOUR 7 ASPECTS OF MASCULINE PROFILE</h3>';
 
     const categoryDescriptions = [
         "How your brain works",
