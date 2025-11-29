@@ -461,6 +461,8 @@ function showResults() {
         const answer = question.answers[answerIndex];
         const rawDetailedDesc = detailedDescriptions[answer.name] || answer.meaning;
         const detailedDesc = convertFirstToSecond(rawDetailedDesc);
+        // Debug: log raw vs converted descriptions to verify conversion
+        console.log(`DEBUG result ${answer.name}: raw="${rawDetailedDesc}" -> converted="${detailedDesc}"`);
         const detailsSwAndWkn = detailedStrengthsWeaknesses[answer.name] || {};
         const strength = detailsSwAndWkn.strengths || answer.strengths.join(", ");
         const weakness = detailsSwAndWkn.weaknesses || answer.weaknesses.join(", ");
