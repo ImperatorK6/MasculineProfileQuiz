@@ -456,22 +456,28 @@ async function downloadResults() {
             const origElems = modalContent.querySelectorAll('*');
             const cloneElems = clone.querySelectorAll('*');
 
-            function solidizeColor(col) {
-                if (!col) return '';
-                // handle rgba(...) -> rgb(...)
+            function parseRGBA(col) {
+                if (!col) return null;
                 const m = col.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([0-9.]+))?\)/);
-                if (m) {
-                    return `rgb(${m[1]}, ${m[2]}, ${m[3]})`;
-                }
-                if (col === 'transparent') return '';
-                return col;
+                if (m) return { r: +m[1], g: +m[2], b: +m[3], a: m[4] ? +m[4] : 1 };
+                if (col === 'transparent') return { r: 255, g: 255, b: 255, a: 0 };
+                return null;
             }
 
-            // also force the clone root to be fully opaque and inherit a solid background
+            function rgbString(c) { return `rgb(${c.r}, ${c.g}, ${c.b})`; }
+
+            function luminance(c) {
+                // relative luminance per WCAG
+                const srgb = [c.r/255, c.g/255, c.b/255].map(v => v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4));
+                return 0.2126*srgb[0] + 0.7152*srgb[1] + 0.0722*srgb[2];
+            }
+
+            // force the clone root to be fully opaque and neutral background
             clone.style.opacity = '1';
             clone.style.filter = 'none';
             clone.style.webkitFilter = 'none';
             clone.style.mixBlendMode = 'normal';
+            clone.style.backgroundColor = window.getComputedStyle(modalContent).backgroundColor || '#ffffff';
 
             for (let i = 0; i < origElems.length; i++) {
                 const o = origElems[i];
@@ -480,19 +486,42 @@ async function downloadResults() {
                 const s = window.getComputedStyle(o);
                 if (!s) continue;
 
-                // solid color without alpha
-                const solidColor = solidizeColor(s.color);
-                const solidBg = solidizeColor(s.backgroundColor) || '';
+                // parse colors
+                const col = parseRGBA(s.color);
+                const bg = parseRGBA(s.backgroundColor);
 
-                if (solidColor) c.style.color = solidColor;
-                if (solidBg) c.style.backgroundColor = solidBg;
+                // Determine text color: if very light or transparent, force a darker fallback
+                if (col) {
+                    const lum = luminance(col);
+                    if (col.a < 0.95 || lum > 0.85) {
+                        // too transparent or too light -> make darker
+                        c.style.setProperty('color', 'rgb(48,48,48)', 'important');
+                    } else {
+                        c.style.setProperty('color', rgbString(col), 'important');
+                    }
+                }
 
-                c.style.opacity = '1';
-                c.style.filter = 'none';
-                c.style.webkitFilter = 'none';
-                c.style.mixBlendMode = 'normal';
-                c.style.boxShadow = s.boxShadow || '';
-                c.style.textShadow = s.textShadow || '';
+                // Determine background: if transparent or very light, set white; else apply solid
+                if (bg) {
+                    if (bg.a < 0.95) {
+                        c.style.setProperty('background-color', '#ffffff', 'important');
+                    } else {
+                        const bgLum = luminance(bg);
+                        if (bgLum > 0.95) {
+                            // very light background - keep white
+                            c.style.setProperty('background-color', '#ffffff', 'important');
+                        } else {
+                            c.style.setProperty('background-color', rgbString(bg), 'important');
+                        }
+                    }
+                }
+
+                c.style.setProperty('opacity', '1', 'important');
+                c.style.setProperty('filter', 'none', 'important');
+                c.style.setProperty('-webkit-filter', 'none', 'important');
+                c.style.setProperty('mix-blend-mode', 'normal', 'important');
+                if (s.boxShadow) c.style.setProperty('box-shadow', s.boxShadow, 'important');
+                if (s.textShadow) c.style.setProperty('text-shadow', s.textShadow, 'important');
             }
         } catch (err) {
             // non-fatal; proceed
