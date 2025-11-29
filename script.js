@@ -421,23 +421,38 @@ function retakeQuiz() {
 
 // Download Results
 async function downloadResults() {
-    // Generate a PDF from the results modal content using html2canvas + jsPDF
+    // Generate a PDF from the full results content (entire modal) using html2canvas + jsPDF
     const modal = document.getElementById('results-modal');
-    // Capture the entire page (full document) instead of only the modal content
-    const contentEl = document.documentElement;
-
-    // If the results modal is hidden, we don't force it open when capturing the whole page.
-    // But if it is currently hidden and you want the modal included, open it first in the UI.
-    const wasHidden = modal.classList.contains('hidden');
-    if (!wasHidden) {
-        // modal already visible, nothing to change
+    const modalContent = modal ? modal.querySelector('.modal-content') : null;
+    if (!modalContent) {
+        alert('Results content not found.');
+        return;
     }
 
-    try {
-        // capture at higher scale for better output quality
-        const canvas = await html2canvas(contentEl, { scale: 2 });
+    // If modal is hidden (display:none via .hidden), temporarily show it but keep it invisible
+    const wasHidden = modal.classList.contains('hidden');
+    if (wasHidden) {
+        modal.classList.remove('hidden');
+        modal.style.visibility = 'hidden';
+    }
 
-        // Use jsPDF in 'px' units so we can work directly with canvas pixels
+    // Clone the modal content, expand it so all inner content is visible, and place offscreen
+    const clone = modalContent.cloneNode(true);
+    const rect = modalContent.getBoundingClientRect();
+    clone.style.boxSizing = 'border-box';
+    clone.style.width = rect.width + 'px';
+    clone.style.maxHeight = 'none';
+    clone.style.height = 'auto';
+    clone.style.overflow = 'visible';
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    clone.style.background = window.getComputedStyle(modalContent).background || '#fff';
+    document.body.appendChild(clone);
+
+    try {
+        const canvas = await html2canvas(clone, { scale: 2, useCORS: true, allowTaint: true });
+
         const pdf = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF({ unit: 'px', format: 'a4' }) : null;
         if (!pdf) throw new Error('jsPDF not found');
 
@@ -447,7 +462,7 @@ async function downloadResults() {
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
 
-        // Scale the canvas image to fit the page width
+        // Scale to page width
         const ratio = pageWidth / canvasWidth;
         const renderedHeight = canvasHeight * ratio;
         const totalPages = Math.ceil(renderedHeight / pageHeight);
@@ -456,7 +471,6 @@ async function downloadResults() {
             const srcY = Math.floor((page * pageHeight) / ratio);
             const srcHeight = Math.min(Math.floor(pageHeight / ratio), canvasHeight - srcY);
 
-            // create a canvas slice for this page
             const sliceCanvas = document.createElement('canvas');
             sliceCanvas.width = canvasWidth;
             sliceCanvas.height = srcHeight;
@@ -464,7 +478,7 @@ async function downloadResults() {
             ctx.drawImage(canvas, 0, srcY, canvasWidth, srcHeight, 0, 0, canvasWidth, srcHeight);
 
             const imgData = sliceCanvas.toDataURL('image/png');
-            const destHeight = srcHeight * ratio; // scaled height on PDF page
+            const destHeight = srcHeight * ratio;
 
             pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, destHeight);
             if (page < totalPages - 1) pdf.addPage();
@@ -475,7 +489,12 @@ async function downloadResults() {
         console.error('PDF generation failed:', err);
         alert('Sorry — could not generate PDF.');
     } finally {
-        if (wasHidden) modal.classList.add('hidden');
+        // cleanup
+        if (clone && clone.parentNode) clone.parentNode.removeChild(clone);
+        if (wasHidden) {
+            modal.classList.add('hidden');
+            modal.style.visibility = '';
+        }
     }
 }
 
