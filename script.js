@@ -8,7 +8,7 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Solitude",
-                meaning: "You restore strength alone",
+                meaning: "I recharge by being alone.",
                 strengths: ["self-sufficient", "focused"],
                 weaknesses: ["isolate too easily"]
             },
