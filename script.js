@@ -359,9 +359,8 @@ function showResults() {
     const resultsInterpretation = document.getElementById('results-interpretation');
 
     // Build the 7-point code
-    const profileCode = selectedAnswers.map(index => {
-        const categoryIndex = selectedAnswers.indexOf(index);
-        return quizData[categoryIndex].answers[index].name;
+    const profileCode = selectedAnswers.map((answerIndex, questionIndex) => {
+        return quizData[questionIndex].answers[answerIndex].name;
     }).join(" — ");
 
     // Build interpretation
