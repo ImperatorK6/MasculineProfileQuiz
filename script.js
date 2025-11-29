@@ -8,30 +8,30 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Solitude",
-                meaning: "You restore strength alone",
-                strengths: ["self-sufficient", "focused"],
-                weaknesses: ["isolate too easily"]
+                meaning: "You regain power by withdrawing from the world and returning to your internal command room. Silence, space, and distance sharpen your thoughts. You perform best when no one is draining you and no chaos is interrupting your clarity.",
+                strengths: ["Exceptional self sufficiency and strong focus when alone."],
+                weaknesses: ["Isolation becomes a prison and you may push people away."]
             },
             {
                 emoji: "2️⃣",
                 name: "Thinking",
-                meaning: "You need mental clarity & planning",
-                strengths: ["strategic", "organised"],
-                weaknesses: ["overthinking delays action"]
+                meaning: "Your energy comes from ideas, frameworks, and planning. A clear mental map is your fuel. When you understand a situation your confidence returns and your actions become sharp.",
+                strengths: ["Excellent at structuring problems and staying organised."],
+                weaknesses: ["Overanalysis delays action and kills momentum."]
             },
             {
                 emoji: "3️⃣",
                 name: "Taking control",
-                meaning: "You feel best when stabilising chaos",
-                strengths: ["initiative", "structure"],
-                weaknesses: ["rigid", "can't let go"]
+                meaning: "You feel strongest when you impose structure on chaos. Disorder activates your leadership instinct and brings out your decisiveness.",
+                strengths: ["Initiative, direction, and natural command."],
+                weaknesses: ["Difficulty delegating and tension when control slips."]
             },
             {
                 emoji: "4️⃣",
                 name: "Purpose",
-                meaning: "You run on mission and direction",
-                strengths: ["relentless", "determined"],
-                weaknesses: ["collapse when goal unclear"]
+                meaning: "Your motivation comes from having a mission. When you know your direction you become unstoppable, but without a goal your energy collapses.",
+                strengths: ["Relentless drive and long term focus."],
+                weaknesses: ["Vulnerable when uncertain or directionless."]
             }
         ]
     },
@@ -42,31 +42,31 @@ const quizData = [
         answers: [
             {
                 emoji: "1️⃣",
-                name: "Anger (fight)",
-                meaning: "Fight response under pressure",
-                strengths: ["powerful pushback"],
-                weaknesses: ["burns bridges"]
+                name: "Anger",
+                meaning: "Stress triggers aggression and pushback. You respond by fighting force with force.",
+                strengths: ["Powerful defence and refusal to be dominated."],
+                weaknesses: ["Burns bridges and escalates conflict unnecessarily."]
             },
             {
                 emoji: "2️⃣",
-                name: "Withdrawal (flight)",
-                meaning: "Flight response under pressure",
-                strengths: ["avoids escalation"],
-                weaknesses: ["misses chances", "regret later"]
+                name: "Withdrawal",
+                meaning: "Under pressure you retreat to safety and distance. You prefer to step away rather than engage.",
+                strengths: ["Prevents escalation and allows reflection."],
+                weaknesses: ["Missed opportunities and later regret."]
             },
             {
                 emoji: "3️⃣",
-                name: "Numbness (freeze)",
-                meaning: "Freeze response under pressure",
-                strengths: ["calm under pressure"],
-                weaknesses: ["stuck when action needed"]
+                name: "Numbness",
+                meaning: "Stress shuts down emotion and you become quiet and still. This creates an inner coldness that protects you from overload.",
+                strengths: ["Calm clarity in chaos."],
+                weaknesses: ["Inaction when decisive movement is needed."]
             },
             {
                 emoji: "4️⃣",
-                name: "Pleasing (fawn)",
-                meaning: "Fawn response under pressure",
-                strengths: ["keeps peace"],
-                weaknesses: ["sacrifices yourself"]
+                name: "Pleasing",
+                meaning: "You attempt to reduce threat by adapting to others and maintaining peace.",
+                strengths: ["Skilled at harmony and reading people."],
+                weaknesses: ["Loses boundaries and sacrifices yourself."]
             }
         ]
     },
@@ -78,30 +78,30 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Rejection",
-                meaning: "Shaped by being rejected or excluded",
-                strengths: ["high independence"],
-                weaknesses: ["fear of closeness"]
+                meaning: "Your armour was forged by exclusion or abandonment. You learned not to depend on anyone.",
+                strengths: ["Fierce independence and inner stability."],
+                weaknesses: ["Difficulty with vulnerability and closeness."]
             },
             {
                 emoji: "2️⃣",
                 name: "Invalidation",
-                meaning: "Shaped by being dismissed or unheard",
-                strengths: ["strong self-definition"],
-                weaknesses: ["quick to feel disrespected"]
+                meaning: "Your voice was dismissed or ignored. You built a strong internal identity in response.",
+                strengths: ["Clear sense of self and solid boundaries."],
+                weaknesses: ["Sensitive to disrespect and quick reactions."]
             },
             {
                 emoji: "3️⃣",
                 name: "Humiliation",
-                meaning: "Shaped by shame and public embarrassment",
-                strengths: ["dignity becomes sacred"],
-                weaknesses: ["perfectionism + shame fear"]
+                meaning: "Past embarrassment or shame made dignity sacred to you. You avoid being mocked again.",
+                strengths: ["High standards and disciplined behaviour."],
+                weaknesses: ["Perfectionism and fear of mistakes."]
             },
             {
                 emoji: "4️⃣",
                 name: "Exposure",
-                meaning: "Shaped by being exposed or vulnerable",
-                strengths: ["guarded awareness"],
-                weaknesses: ["social anxiety", "hiding"]
+                meaning: "You were judged or observed too harshly. You learned to hide and stay guarded.",
+                strengths: ["Sharp social awareness."],
+                weaknesses: ["Anxiety in groups and fear of being seen."]
             }
         ]
     },
@@ -113,30 +113,30 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Independence",
-                meaning: "Self-reliant and self-directed",
-                strengths: ["unshakeable self-authority"],
-                weaknesses: ["trust comes slow"]
+                meaning: "You trust your own judgement and prefer to operate alone.",
+                strengths: ["Unshakeable authority over yourself."],
+                weaknesses: ["Slow to trust and difficulty collaborating."]
             },
             {
                 emoji: "2️⃣",
                 name: "Discipline",
-                meaning: "Consistent commitment and execution",
-                strengths: ["reliability", "grit"],
-                weaknesses: ["harsh with self"]
+                meaning: "You show up consistently and maintain structure.",
+                strengths: ["Reliability and strong work ethic."],
+                weaknesses: ["Hard on yourself and difficulty resting."]
             },
             {
                 emoji: "3️⃣",
                 name: "Loyalty",
-                meaning: "Deep bonds and unwavering commitment",
-                strengths: ["deep bonds", "honour"],
-                weaknesses: ["hurts more when betrayed"]
+                meaning: "You commit deeply and stand by the people you choose.",
+                strengths: ["Strong relationships and honourable behaviour."],
+                weaknesses: ["Betrayal is devastating and slow to heal."]
             },
             {
                 emoji: "4️⃣",
                 name: "Integrity",
-                meaning: "Truth-driven and morally aligned",
-                strengths: ["truth-driven respect"],
-                weaknesses: ["inflexible morals sometimes"]
+                meaning: "Your behaviour aligns with your values. You act truthfully even when costly.",
+                strengths: ["Respect, trustworthiness, strong moral compass."],
+                weaknesses: ["Rigidity and intolerance for compromise."]
             }
         ]
     },
@@ -148,30 +148,30 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Overthinking",
-                meaning: "Analysis paralysis",
-                strengths: ["high accuracy"],
-                weaknesses: ["action delayed"]
+                meaning: "You want clarity before action and analyse every angle.",
+                strengths: ["High accuracy and minimal mistakes."],
+                weaknesses: ["Lost momentum and delayed action."]
             },
             {
                 emoji: "2️⃣",
                 name: "Avoidance",
-                meaning: "Dodging difficult situations",
-                strengths: ["good risk radar"],
-                weaknesses: ["life passes by"]
+                meaning: "You escape discomfort, conflict, or tasks when overwhelmed.",
+                strengths: ["Good danger awareness and risk sensing."],
+                weaknesses: ["Life moves without you and guilt grows."]
             },
             {
                 emoji: "3️⃣",
                 name: "Self-doubt",
-                meaning: "Questioning your own capability",
-                strengths: ["humility"],
-                weaknesses: ["blocks ambition"]
+                meaning: "You question your worth or abilities.",
+                strengths: ["Humility and careful judgement."],
+                weaknesses: ["Blocked ambition and low confidence."]
             },
             {
                 emoji: "4️⃣",
                 name: "Unstable energy",
-                meaning: "Inconsistent effort and motivation",
-                strengths: ["bursts of power"],
-                weaknesses: ["inconsistent progress"]
+                meaning: "Your energy fluctuates strongly.",
+                strengths: ["Powerful bursts of performance."],
+                weaknesses: ["Inconsistency and difficulty finishing long tasks."]
             }
         ]
     },
@@ -183,30 +183,30 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Responsibility",
-                meaning: "Owning your impact and commitments",
-                strengths: ["earns respect"],
-                weaknesses: ["pressure overload"]
+                meaning: "You define manhood by the weight you can carry and the duties you accept.",
+                strengths: ["Natural respect and dependability."],
+                weaknesses: ["Overload and burnout."]
             },
             {
                 emoji: "2️⃣",
                 name: "Order",
-                meaning: "Creating and maintaining structure",
-                strengths: ["clarity + stability"],
-                weaknesses: ["hates disorder in others"]
+                meaning: "You value structure clarity and stability.",
+                strengths: ["Creates stability for yourself and others."],
+                weaknesses: ["Irritation with chaos and disorganised people."]
             },
             {
                 emoji: "3️⃣",
                 name: "Courage",
-                meaning: "Acting despite fear",
-                strengths: ["acts despite fear"],
-                weaknesses: ["risks too much alone"]
+                meaning: "You face difficulty directly and act despite fear.",
+                strengths: ["Boldness and protective instinct."],
+                weaknesses: ["Taking risks alone and refusing assistance."]
             },
             {
                 emoji: "4️⃣",
                 name: "Honour",
-                meaning: "Moral backbone and dignity",
-                strengths: ["moral backbone"],
-                weaknesses: ["takes betrayal personally"]
+                meaning: "Your identity is tied to truth fairness and loyalty.",
+                strengths: ["Inspires trust and earns admiration."],
+                weaknesses: ["Deep wounds from betrayal and holding grudges."]
             }
         ]
     },
@@ -218,30 +218,30 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Knowledge",
-                meaning: "Mastery and deep understanding",
-                strengths: ["mastery mindset"],
-                weaknesses: ["stuck in theory"]
+                meaning: "Life pushes you toward mastery and understanding.",
+                strengths: ["Insight depth and competence."],
+                weaknesses: ["Remaining in theory instead of applying."]
             },
             {
                 emoji: "2️⃣",
-                name: "Strength (physical/mental)",
-                meaning: "Building capability and presence",
-                strengths: ["presence, confidence"],
-                weaknesses: ["injury/burnout risk"]
+                name: "Strength",
+                meaning: "Your path demands physical and mental power.",
+                strengths: ["Stronger presence and resilience."],
+                weaknesses: ["Burnout or injury risk."]
             },
             {
                 emoji: "3️⃣",
                 name: "Leadership",
-                meaning: "Influencing and guiding others",
-                strengths: ["influence, command"],
-                weaknesses: ["heavy responsibility"]
+                meaning: "Your growth moves you into guiding others.",
+                strengths: ["Influence direction and authority."],
+                weaknesses: ["Heavy responsibility and criticism."]
             },
             {
                 emoji: "4️⃣",
                 name: "Legacy",
-                meaning: "Creating lasting impact",
-                strengths: ["long-term purpose"],
-                weaknesses: ["fear of wasting life"]
+                meaning: "You are pushed toward long term purpose and building something that lasts.",
+                strengths: ["Vision consistency and meaning."],
+                weaknesses: ["Fear of wasting life and existential pressure."]
             }
         ]
     }
