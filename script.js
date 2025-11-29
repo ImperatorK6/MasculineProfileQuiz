@@ -426,9 +426,8 @@ async function downloadResults() {
 
     try {
         // Build the 7-point code
-        const profileCode = selectedAnswers.map(index => {
-            const categoryIndex = selectedAnswers.indexOf(index);
-            return quizData[categoryIndex].answers[index].name;
+        const profileCode = selectedAnswers.map((answerIndex, questionIndex) => {
+            return quizData[questionIndex].answers[answerIndex].name;
         }).join(' — ');
 
         const categoryDescriptions = [
