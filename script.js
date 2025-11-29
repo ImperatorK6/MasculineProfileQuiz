@@ -423,11 +423,15 @@ function retakeQuiz() {
 async function downloadResults() {
     // Generate a PDF from the results modal content using html2canvas + jsPDF
     const modal = document.getElementById('results-modal');
-    const contentEl = modal.querySelector('.modal-content');
+    // Capture the entire page (full document) instead of only the modal content
+    const contentEl = document.documentElement;
 
-    // Ensure modal is visible when capturing
+    // If the results modal is hidden, we don't force it open when capturing the whole page.
+    // But if it is currently hidden and you want the modal included, open it first in the UI.
     const wasHidden = modal.classList.contains('hidden');
-    if (wasHidden) modal.classList.remove('hidden');
+    if (!wasHidden) {
+        // modal already visible, nothing to change
+    }
 
     try {
         // capture at higher scale for better output quality
