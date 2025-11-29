@@ -19,7 +19,6 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
     color: var(--primary-color);
@@ -31,14 +30,9 @@ body {
     padding: 20px;
 }
 
-.container {
-    width: 100%;
-    max-width: 900px;
-    background: var(--secondary-color);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-}
+
+/* style.css emptied per user request */
+
 
 /* Header Styles */
 .header {
