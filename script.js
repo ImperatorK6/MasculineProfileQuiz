@@ -430,45 +430,40 @@ async function downloadResults() {
     if (wasHidden) modal.classList.remove('hidden');
 
     try {
+        // capture at higher scale for better output quality
         const canvas = await html2canvas(contentEl, { scale: 2 });
-        const imgData = canvas.toDataURL('image/png');
 
-        const { jsPDF } = window.jspdf || {}
-        const pdf = jsPDF({ unit: 'mm', format: 'a4', compress: true });
+        // Use jsPDF in 'px' units so we can work directly with canvas pixels
+        const pdf = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF({ unit: 'px', format: 'a4' }) : null;
+        if (!pdf) throw new Error('jsPDF not found');
 
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
 
-        const imgProps = pdf.getImageProperties(imgData);
-        const imgWidth = pageWidth;
-        const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
 
-        let position = 0;
-        if (imgHeight <= pageHeight) {
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        } else {
-            // If content is taller than one page, split across pages
-            let remainingHeight = imgHeight;
-            const canvasWidth = canvas.width;
-            const canvasHeight = canvas.height;
-            const pxPerMm = canvasWidth / (imgWidth / 25.4); // approximate
+        // Scale the canvas image to fit the page width
+        const ratio = pageWidth / canvasWidth;
+        const renderedHeight = canvasHeight * ratio;
+        const totalPages = Math.ceil(renderedHeight / pageHeight);
 
-            while (remainingHeight > 0) {
-                const sliceHeightPx = Math.min(canvasHeight - position, (pageHeight * pxPerMm));
-                const sliceCanvas = document.createElement('canvas');
-                sliceCanvas.width = canvasWidth;
-                sliceCanvas.height = sliceHeightPx;
-                const ctx = sliceCanvas.getContext('2d');
-                ctx.drawImage(canvas, 0, position, canvasWidth, sliceHeightPx, 0, 0, canvasWidth, sliceHeightPx);
-                const sliceData = sliceCanvas.toDataURL('image/png');
-                const sliceImgProps = pdf.getImageProperties(sliceData);
-                const sliceImgHeightMm = (sliceImgProps.height * pageWidth) / sliceImgProps.width;
+        for (let page = 0; page < totalPages; page++) {
+            const srcY = Math.floor((page * pageHeight) / ratio);
+            const srcHeight = Math.min(Math.floor(pageHeight / ratio), canvasHeight - srcY);
 
-                pdf.addImage(sliceData, 'PNG', 0, 0, pageWidth, sliceImgHeightMm);
-                remainingHeight -= sliceHeightPx;
-                position += sliceHeightPx;
-                if (remainingHeight > 0) pdf.addPage();
-            }
+            // create a canvas slice for this page
+            const sliceCanvas = document.createElement('canvas');
+            sliceCanvas.width = canvasWidth;
+            sliceCanvas.height = srcHeight;
+            const ctx = sliceCanvas.getContext('2d');
+            ctx.drawImage(canvas, 0, srcY, canvasWidth, srcHeight, 0, 0, canvasWidth, srcHeight);
+
+            const imgData = sliceCanvas.toDataURL('image/png');
+            const destHeight = srcHeight * ratio; // scaled height on PDF page
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, destHeight);
+            if (page < totalPages - 1) pdf.addPage();
         }
 
         pdf.save('masculine-profile-results.pdf');
