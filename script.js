@@ -421,144 +421,107 @@ function retakeQuiz() {
 
 // Download Results
 async function downloadResults() {
-    // Generate a PDF from the full results content (entire modal) using html2canvas + jsPDF
-    const modal = document.getElementById('results-modal');
-    const modalContent = modal ? modal.querySelector('.modal-content') : null;
-    if (!modalContent) {
-        alert('Results content not found.');
-        return;
-    }
-
-    // If modal is hidden (display:none via .hidden), temporarily show it but keep it invisible
-    const wasHidden = modal.classList.contains('hidden');
-    if (wasHidden) {
-        modal.classList.remove('hidden');
-        modal.style.visibility = 'hidden';
-    }
-
-    // Clone the modal content, expand it so all inner content is visible, and place offscreen
-    const clone = modalContent.cloneNode(true);
-    const rect = modalContent.getBoundingClientRect();
-    clone.style.boxSizing = 'border-box';
-    clone.style.width = rect.width + 'px';
-    clone.style.maxHeight = 'none';
-    clone.style.height = 'auto';
-    clone.style.overflow = 'visible';
-    clone.style.position = 'absolute';
-    clone.style.left = '-9999px';
-    clone.style.top = '0';
-    clone.style.background = window.getComputedStyle(modalContent).background || '#fff';
-    document.body.appendChild(clone);
+    const pdf = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF({ unit: 'mm', format: 'a4' }) : null;
+    if (!pdf) throw new Error('jsPDF not found');
 
     try {
-        // Copy computed colors/styles into the clone so html2canvas captures visible colours
-        try {
-            const origElems = modalContent.querySelectorAll('*');
-            const cloneElems = clone.querySelectorAll('*');
+        // Build the 7-point code
+        const profileCode = selectedAnswers.map(index => {
+            const categoryIndex = selectedAnswers.indexOf(index);
+            return quizData[categoryIndex].answers[index].name;
+        }).join(' — ');
 
-            function parseRGBA(col) {
-                if (!col) return null;
-                const m = col.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([0-9.]+))?\)/);
-                if (m) return { r: +m[1], g: +m[2], b: +m[3], a: m[4] ? +m[4] : 1 };
-                if (col === 'transparent') return { r: 255, g: 255, b: 255, a: 0 };
-                return null;
-            }
+        const categoryDescriptions = [
+            "How your brain works",
+            "How stress changes you",
+            "Where past pain forged you",
+            "What strengths keep you alive",
+            "What flaw blocks progress",
+            "What makes you a man",
+            "Why you move forward"
+        ];
 
-            function rgbString(c) { return `rgb(${c.r}, ${c.g}, ${c.b})`; }
-
-            function luminance(c) {
-                // relative luminance per WCAG
-                const srgb = [c.r/255, c.g/255, c.b/255].map(v => v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4));
-                return 0.2126*srgb[0] + 0.7152*srgb[1] + 0.0722*srgb[2];
-            }
-
-            // force the clone root to be fully opaque and neutral background
-            clone.style.opacity = '1';
-            clone.style.filter = 'none';
-            clone.style.webkitFilter = 'none';
-            clone.style.mixBlendMode = 'normal';
-            clone.style.backgroundColor = window.getComputedStyle(modalContent).backgroundColor || '#ffffff';
-
-            for (let i = 0; i < origElems.length; i++) {
-                const o = origElems[i];
-                const c = cloneElems[i];
-                if (!c) continue;
-                const s = window.getComputedStyle(o);
-                if (!s) continue;
-
-                // parse colors
-                const col = parseRGBA(s.color);
-                const bg = parseRGBA(s.backgroundColor);
-
-                // Determine text color: if very light or transparent, force a darker fallback
-                if (col) {
-                    const lum = luminance(col);
-                    if (col.a < 0.95 || lum > 0.85) {
-                        // too transparent or too light -> make darker
-                        c.style.setProperty('color', 'rgb(48,48,48)', 'important');
-                    } else {
-                        c.style.setProperty('color', rgbString(col), 'important');
-                    }
-                }
-
-                // Determine background: if transparent or very light, set white; else apply solid
-                if (bg) {
-                    if (bg.a < 0.95) {
-                        c.style.setProperty('background-color', '#ffffff', 'important');
-                    } else {
-                        const bgLum = luminance(bg);
-                        if (bgLum > 0.95) {
-                            // very light background - keep white
-                            c.style.setProperty('background-color', '#ffffff', 'important');
-                        } else {
-                            c.style.setProperty('background-color', rgbString(bg), 'important');
-                        }
-                    }
-                }
-
-                c.style.setProperty('opacity', '1', 'important');
-                c.style.setProperty('filter', 'none', 'important');
-                c.style.setProperty('-webkit-filter', 'none', 'important');
-                c.style.setProperty('mix-blend-mode', 'normal', 'important');
-                if (s.boxShadow) c.style.setProperty('box-shadow', s.boxShadow, 'important');
-                if (s.textShadow) c.style.setProperty('text-shadow', s.textShadow, 'important');
-            }
-        } catch (err) {
-            // non-fatal; proceed
-            console.warn('Could not copy styles to clone', err);
-        }
-
-        const canvas = await html2canvas(clone, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: null });
-
-        const pdf = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF({ unit: 'px', format: 'a4' }) : null;
-        if (!pdf) throw new Error('jsPDF not found');
-
+        // Set up fonts and margins
+        const marginLeft = 15;
+        const marginRight = 15;
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
+        const contentWidth = pageWidth - marginLeft - marginRight;
+        let yPos = 15;
+        const lineHeight = 7;
 
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
+        // Title
+        pdf.setFontSize(18);
+        pdf.setFont(undefined, 'bold');
+        pdf.text('YOUR 7 ASPECTS OF MASCULINE PROFILE', marginLeft, yPos);
+        yPos += 12;
 
-        // Fit the entire canvas onto a single PDF page by scaling to fit both width and height
-        const scaleToFit = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
-        const destWidth = Math.floor(canvasWidth * scaleToFit);
-        const destHeight = Math.floor(canvasHeight * scaleToFit);
-        const offsetX = Math.floor((pageWidth - destWidth) / 2);
-        const offsetY = Math.floor((pageHeight - destHeight) / 2);
+        // 7-Point Code
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
+        pdf.text('Your Profile Code:', marginLeft, yPos);
+        yPos += 6;
+        pdf.setFontSize(10);
+        pdf.setFont(undefined, 'normal');
+        const codeLines = pdf.splitTextToSize(profileCode, contentWidth);
+        pdf.text(codeLines, marginLeft + 5, yPos);
+        yPos += codeLines.length * lineHeight + 4;
 
-        const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', offsetX, offsetY, destWidth, destHeight);
+        // Interpretation items
+        pdf.setFontSize(11);
+        selectedAnswers.forEach((answerIndex, questionIndex) => {
+            const question = quizData[questionIndex];
+            const answer = question.answers[answerIndex];
+
+            // Check if we need a new page
+            if (yPos > pageHeight - 30) {
+                pdf.addPage();
+                yPos = 15;
+            }
+
+            // Item number and category
+            pdf.setFont(undefined, 'bold');
+            pdf.setFontSize(11);
+            const itemHeader = `${questionIndex + 1}. ${categoryDescriptions[questionIndex]}`;
+            pdf.text(itemHeader, marginLeft, yPos);
+            yPos += 6;
+
+            // Answer name
+            pdf.setFont(undefined, 'bold');
+            pdf.setFontSize(10);
+            pdf.text('Answer: ' + answer.name, marginLeft + 3, yPos);
+            yPos += 5;
+
+            // Core Pattern
+            pdf.setFont(undefined, 'normal');
+            pdf.setFontSize(9);
+            const meaningLines = pdf.splitTextToSize('Core Pattern: ' + answer.meaning, contentWidth - 6);
+            pdf.text(meaningLines, marginLeft + 3, yPos);
+            yPos += meaningLines.length * lineHeight + 2;
+
+            // Strengths
+            pdf.setFont(undefined, 'bold');
+            pdf.text('✓ Strengths:', marginLeft + 3, yPos);
+            yPos += 4;
+            pdf.setFont(undefined, 'normal');
+            const strengthLines = pdf.splitTextToSize(answer.strengths.join(', '), contentWidth - 8);
+            pdf.text(strengthLines, marginLeft + 5, yPos);
+            yPos += strengthLines.length * lineHeight + 2;
+
+            // Weaknesses
+            pdf.setFont(undefined, 'bold');
+            pdf.text('✗ Weaknesses:', marginLeft + 3, yPos);
+            yPos += 4;
+            pdf.setFont(undefined, 'normal');
+            const weaknessLines = pdf.splitTextToSize(answer.weaknesses.join(', '), contentWidth - 8);
+            pdf.text(weaknessLines, marginLeft + 5, yPos);
+            yPos += weaknessLines.length * lineHeight + 5;
+        });
+
         pdf.save('masculine-profile-results.pdf');
     } catch (err) {
         console.error('PDF generation failed:', err);
         alert('Sorry — could not generate PDF.');
-    } finally {
-        // cleanup
-        if (clone && clone.parentNode) clone.parentNode.removeChild(clone);
-        if (wasHidden) {
-            modal.classList.add('hidden');
-            modal.style.visibility = '';
-        }
     }
 }
 
