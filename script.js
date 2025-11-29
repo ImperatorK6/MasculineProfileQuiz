@@ -451,7 +451,29 @@ async function downloadResults() {
     document.body.appendChild(clone);
 
     try {
-        const canvas = await html2canvas(clone, { scale: 2, useCORS: true, allowTaint: true });
+        // Copy computed colors/styles into the clone so html2canvas captures visible colours
+        try {
+            const origElems = modalContent.querySelectorAll('*');
+            const cloneElems = clone.querySelectorAll('*');
+            for (let i = 0; i < origElems.length; i++) {
+                const o = origElems[i];
+                const c = cloneElems[i];
+                if (!c) continue;
+                const s = window.getComputedStyle(o);
+                if (s) {
+                    c.style.color = s.color;
+                    c.style.backgroundColor = s.backgroundColor;
+                    c.style.opacity = '1';
+                    c.style.filter = 'none';
+                    c.style.boxShadow = s.boxShadow;
+                }
+            }
+        } catch (err) {
+            // non-fatal; proceed
+            console.warn('Could not copy styles to clone', err);
+        }
+
+        const canvas = await html2canvas(clone, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: null });
 
         const pdf = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF({ unit: 'px', format: 'a4' }) : null;
         if (!pdf) throw new Error('jsPDF not found');
@@ -462,28 +484,15 @@ async function downloadResults() {
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
 
-        // Scale to page width
-        const ratio = pageWidth / canvasWidth;
-        const renderedHeight = canvasHeight * ratio;
-        const totalPages = Math.ceil(renderedHeight / pageHeight);
+        // Fit the entire canvas onto a single PDF page by scaling to fit both width and height
+        const scaleToFit = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+        const destWidth = Math.floor(canvasWidth * scaleToFit);
+        const destHeight = Math.floor(canvasHeight * scaleToFit);
+        const offsetX = Math.floor((pageWidth - destWidth) / 2);
+        const offsetY = Math.floor((pageHeight - destHeight) / 2);
 
-        for (let page = 0; page < totalPages; page++) {
-            const srcY = Math.floor((page * pageHeight) / ratio);
-            const srcHeight = Math.min(Math.floor(pageHeight / ratio), canvasHeight - srcY);
-
-            const sliceCanvas = document.createElement('canvas');
-            sliceCanvas.width = canvasWidth;
-            sliceCanvas.height = srcHeight;
-            const ctx = sliceCanvas.getContext('2d');
-            ctx.drawImage(canvas, 0, srcY, canvasWidth, srcHeight, 0, 0, canvasWidth, srcHeight);
-
-            const imgData = sliceCanvas.toDataURL('image/png');
-            const destHeight = srcHeight * ratio;
-
-            pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, destHeight);
-            if (page < totalPages - 1) pdf.addPage();
-        }
-
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', offsetX, offsetY, destWidth, destHeight);
         pdf.save('masculine-profile-results.pdf');
     } catch (err) {
         console.error('PDF generation failed:', err);
