@@ -255,8 +255,12 @@ const detailedDescriptions = {
     "Purpose": "Your motivation comes from having a mission. When you know your direction you become unstoppable, but without a goal your energy collapses.",
     "Anger (fight)": "Stress triggers aggression and pushback. You respond by fighting force with force.",
     "Withdrawal (flight)": "Under pressure you retreat to safety and distance. You prefer to step away rather than engage.",
+    "Anger": "Stress triggers aggression and pushback. You respond by fighting force with force.",
+    "Withdrawal": "Under pressure you retreat to safety and distance. You prefer to step away rather than engage.",
     "Numbness (freeze)": "Stress shuts down emotion and you become quiet and still. This creates an inner coldness that protects you from overload.",
+    "Numbness": "Stress shuts down emotion and you become quiet and still. This creates an inner coldness that protects you from overload.",
     "Pleasing (fawn)": "You attempt to reduce threat by adapting to others and maintaining peace.",
+    "Pleasing": "You attempt to reduce threat by adapting to others and maintaining peace.",
     "Rejection": "Your armour was forged by exclusion or abandonment. You learned not to depend on anyone.",
     "Invalidation": "Your voice was dismissed or ignored. You built a strong internal identity in response.",
     "Humiliation": "Past embarrassment or shame made dignity sacred to you. You avoid being mocked again.",
@@ -275,6 +279,7 @@ const detailedDescriptions = {
     "Honour": "Your identity is tied to truth fairness and loyalty.",
     "Knowledge": "Life pushes you toward mastery and understanding.",
     "Strength (physical/mental)": "Your path demands physical and mental power.",
+    "Strength": "Your path demands physical and mental power.",
     "Leadership": "Your growth moves you into guiding others.",
     "Legacy": "You are pushed toward long term purpose and building something that lasts."
 };
@@ -415,8 +420,6 @@ function prevQuestion() {
         displayQuestion();
         updateProgress();
     }
-}
-
 // Helper: convert common first-person starts to second-person for results and PDFs
 function convertFirstToSecond(text) {
     if (!text || typeof text !== 'string') return text;
@@ -429,6 +432,24 @@ function convertFirstToSecond(text) {
     out = out.replace(/^\s*I\b/gi, 'You');
     out = out.replace(/^\s*I\s+/gi, 'You ');
     return out;
+}
+
+// Helper: find a key in an object that starts with the given name (case-insensitive)
+function findKeyStartingWith(obj, name) {
+    if (!obj || !name) return null;
+    if (Object.prototype.hasOwnProperty.call(obj, name)) return name;
+    const lower = name.toLowerCase();
+    return Object.keys(obj).find(k => k.toLowerCase().startsWith(lower)) || null;
+}
+
+function getDetailedDescription(name) {
+    const key = findKeyStartingWith(detailedDescriptions, name);
+    return key ? detailedDescriptions[key] : null;
+}
+
+function getDetailsSwAndWkn(name) {
+    const key = findKeyStartingWith(detailedStrengthsWeaknesses, name);
+    return key ? detailedStrengthsWeaknesses[key] : null;
 }
 
 // Show Results
@@ -459,11 +480,9 @@ function showResults() {
     selectedAnswers.forEach((answerIndex, questionIndex) => {
         const question = quizData[questionIndex];
         const answer = question.answers[answerIndex];
-        const rawDetailedDesc = detailedDescriptions[answer.name] || answer.meaning;
+        const rawDetailedDesc = getDetailedDescription(answer.name) || answer.meaning;
         const detailedDesc = convertFirstToSecond(rawDetailedDesc);
-        // Debug: log raw vs converted descriptions to verify conversion
-        console.log(`DEBUG result ${answer.name}: raw="${rawDetailedDesc}" -> converted="${detailedDesc}"`);
-        const detailsSwAndWkn = detailedStrengthsWeaknesses[answer.name] || {};
+        const detailsSwAndWkn = getDetailsSwAndWkn(answer.name) || {};
         const strength = detailsSwAndWkn.strengths || answer.strengths.join(", ");
         const weakness = detailsSwAndWkn.weaknesses || answer.weaknesses.join(", ");
 
@@ -578,7 +597,7 @@ async function downloadResults() {
             yPos += 5;
 
             // Core Pattern (use detailed description if available) and convert first-person to second-person
-            const detailedDesc = convertFirstToSecond(detailedDescriptions[answer.name] || answer.meaning);
+            const detailedDesc = convertFirstToSecond(getDetailedDescription(answer.name) || answer.meaning);
             pdf.setFont(undefined, 'normal');
             pdf.setFontSize(9);
             const meaningLines = pdf.splitTextToSize('Core Pattern: ' + detailedDesc, contentWidth - 6);
@@ -586,7 +605,7 @@ async function downloadResults() {
             yPos += meaningLines.length * lineHeight + 2;
 
             // Strengths (use detailed strength if available)
-            const detailsSwAndWkn = detailedStrengthsWeaknesses[answer.name] || {};
+            const detailsSwAndWkn = getDetailsSwAndWkn(answer.name) || {};
             const strength = detailsSwAndWkn.strengths || answer.strengths.join(', ');
             pdf.setFont(undefined, 'bold');
             pdf.text('✓ Strengths:', marginLeft + 3, yPos);
