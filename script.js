@@ -343,7 +343,7 @@ function displayQuestion() {
                     <span class="answer-emoji">${answer.emoji}</span>
                     <span class="answer-title">${answer.name}</span>
                 </div>
-                <div class="answer-meaning"><strong>Meaning:</strong> ${answer.meaning}</div>
+                <div class="answer-meaning">${answer.meaning}</div>
                 <!-- Strengths/weaknesses removed from option cards per request -->
             </div>
         `;
