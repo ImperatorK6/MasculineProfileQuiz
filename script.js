@@ -280,8 +280,7 @@ function displayQuestion() {
                     <span class="answer-title">${answer.name}</span>
                 </div>
                 <div class="answer-meaning"><strong>Meaning:</strong> ${answer.meaning}</div>
-                <div class="answer-strength"><strong>Strengths:</strong> ${answer.strengths.join(", ")}</div>
-                <div class="answer-weakness"><strong>Weaknesses:</strong> ${answer.weaknesses.join(", ")}</div>
+                <!-- Strengths/weaknesses removed from option cards per request -->
             </div>
         `;
     });
@@ -298,8 +297,16 @@ function displayQuestion() {
 // Select Answer
 function selectAnswer(index) {
     selectedAnswers[currentQuestion] = index;
-    displayQuestion();
-    updateButtonStates();
+    // Immediately advance to next question, or show results if on last question
+    if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        displayQuestion();
+        updateProgress();
+        updateButtonStates();
+    } else {
+        // Last question answered: show results
+        showResults();
+    }
 }
 
 // Update Progress
@@ -413,48 +420,64 @@ function retakeQuiz() {
 }
 
 // Download Results
-function downloadResults() {
-    const profileCode = selectedAnswers.map(index => {
-        return quizData[index === undefined ? 0 : selectedAnswers.indexOf(index)].answers[index || 0].name;
-    }).join(" — ");
+async function downloadResults() {
+    // Generate a PDF from the results modal content using html2canvas + jsPDF
+    const modal = document.getElementById('results-modal');
+    const contentEl = modal.querySelector('.modal-content');
 
-    let content = "MASCULINE PROFILE QUIZ - YOUR RESULTS\n";
-    content += "====================================\n\n";
-    content += "YOUR 7-POINT CODE:\n";
-    content += profileCode + "\n\n";
-    content += "====================================\n";
-    content += "DETAILED BREAKDOWN:\n";
-    content += "====================================\n\n";
+    // Ensure modal is visible when capturing
+    const wasHidden = modal.classList.contains('hidden');
+    if (wasHidden) modal.classList.remove('hidden');
 
-    const categoryDescriptions = [
-        "How your brain works",
-        "How stress changes you",
-        "Where past pain forged you",
-        "What strengths keep you alive",
-        "What flaw blocks progress",
-        "What makes you a man",
-        "Why you move forward"
-    ];
+    try {
+        const canvas = await html2canvas(contentEl, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
 
-    selectedAnswers.forEach((answerIndex, questionIndex) => {
-        const question = quizData[questionIndex];
-        const answer = question.answers[answerIndex];
+        const { jsPDF } = window.jspdf || {}
+        const pdf = jsPDF({ unit: 'mm', format: 'a4', compress: true });
 
-        content += `${questionIndex + 1}. ${categoryDescriptions[questionIndex].toUpperCase()}\n`;
-        content += `   Answer: ${answer.name}\n`;
-        content += `   Meaning: ${answer.meaning}\n`;
-        content += `   Strengths: ${answer.strengths.join(", ")}\n`;
-        content += `   Weaknesses: ${answer.weaknesses.join(", ")}\n\n`;
-    });
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // Create and download the file
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
-    element.setAttribute('download', 'masculine-profile-quiz-results.txt');
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+        const imgProps = pdf.getImageProperties(imgData);
+        const imgWidth = pageWidth;
+        const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+        let position = 0;
+        if (imgHeight <= pageHeight) {
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        } else {
+            // If content is taller than one page, split across pages
+            let remainingHeight = imgHeight;
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            const pxPerMm = canvasWidth / (imgWidth / 25.4); // approximate
+
+            while (remainingHeight > 0) {
+                const sliceHeightPx = Math.min(canvasHeight - position, (pageHeight * pxPerMm));
+                const sliceCanvas = document.createElement('canvas');
+                sliceCanvas.width = canvasWidth;
+                sliceCanvas.height = sliceHeightPx;
+                const ctx = sliceCanvas.getContext('2d');
+                ctx.drawImage(canvas, 0, position, canvasWidth, sliceHeightPx, 0, 0, canvasWidth, sliceHeightPx);
+                const sliceData = sliceCanvas.toDataURL('image/png');
+                const sliceImgProps = pdf.getImageProperties(sliceData);
+                const sliceImgHeightMm = (sliceImgProps.height * pageWidth) / sliceImgProps.width;
+
+                pdf.addImage(sliceData, 'PNG', 0, 0, pageWidth, sliceImgHeightMm);
+                remainingHeight -= sliceHeightPx;
+                position += sliceHeightPx;
+                if (remainingHeight > 0) pdf.addPage();
+            }
+        }
+
+        pdf.save('masculine-profile-results.pdf');
+    } catch (err) {
+        console.error('PDF generation failed:', err);
+        alert('Sorry — could not generate PDF.');
+    } finally {
+        if (wasHidden) modal.classList.add('hidden');
+    }
 }
 
 // Scroll to top helper
