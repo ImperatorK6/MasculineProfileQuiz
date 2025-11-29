@@ -417,6 +417,20 @@ function prevQuestion() {
     }
 }
 
+// Helper: convert common first-person starts to second-person for results and PDFs
+function convertFirstToSecond(text) {
+    if (!text || typeof text !== 'string') return text;
+    let out = text;
+    out = out.replace(/\bI'm\b/gi, 'You are');
+    out = out.replace(/\bI am\b/gi, 'You are');
+    out = out.replace(/\bI've\b/gi, 'You have');
+    out = out.replace(/\bI have\b/gi, 'You have');
+    out = out.replace(/\bMy\b/gi, 'Your');
+    out = out.replace(/^\s*I\b/gi, 'You');
+    out = out.replace(/^\s*I\s+/gi, 'You ');
+    return out;
+}
+
 // Show Results
 function showResults() {
     const resultsProfile = document.getElementById('results-profile');
@@ -440,10 +454,13 @@ function showResults() {
         "Why you move forward"
     ];
 
+    // (uses top-level convertFirstToSecond)
+
     selectedAnswers.forEach((answerIndex, questionIndex) => {
         const question = quizData[questionIndex];
         const answer = question.answers[answerIndex];
-        const detailedDesc = detailedDescriptions[answer.name] || answer.meaning;
+        const rawDetailedDesc = detailedDescriptions[answer.name] || answer.meaning;
+        const detailedDesc = convertFirstToSecond(rawDetailedDesc);
         const detailsSwAndWkn = detailedStrengthsWeaknesses[answer.name] || {};
         const strength = detailsSwAndWkn.strengths || answer.strengths.join(", ");
         const weakness = detailsSwAndWkn.weaknesses || answer.weaknesses.join(", ");
@@ -558,8 +575,8 @@ async function downloadResults() {
             pdf.text('Answer: ' + answer.name, marginLeft + 3, yPos);
             yPos += 5;
 
-            // Core Pattern (use detailed description if available)
-            const detailedDesc = detailedDescriptions[answer.name] || answer.meaning;
+            // Core Pattern (use detailed description if available) and convert first-person to second-person
+            const detailedDesc = convertFirstToSecond(detailedDescriptions[answer.name] || answer.meaning);
             pdf.setFont(undefined, 'normal');
             pdf.setFontSize(9);
             const meaningLines = pdf.splitTextToSize('Core Pattern: ' + detailedDesc, contentWidth - 6);
