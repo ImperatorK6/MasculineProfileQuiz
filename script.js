@@ -15,23 +15,23 @@ const quizData = [
             {
                 emoji: "2️⃣",
                 name: "Thinking",
-                meaning: "Your energy comes from ideas, frameworks, and planning. A clear mental map is your fuel. When you understand a situation your confidence returns and your actions become sharp.",
-                strengths: ["Excellent at structuring problems and staying organised."],
-                weaknesses: ["Overanalysis delays action and kills momentum."]
+                meaning: "I feel better when I understand everything.",
+                strengths: ["strategic", "organised"],
+                weaknesses: ["overthinking delays action"]
             },
             {
                 emoji: "3️⃣",
                 name: "Taking control",
-                meaning: "You feel strongest when you impose structure on chaos. Disorder activates your leadership instinct and brings out your decisiveness.",
-                strengths: ["Initiative, direction, and natural command."],
-                weaknesses: ["Difficulty delegating and tension when control slips."]
+                meaning: "I stabilise chaos by taking charge.",
+                strengths: ["initiative", "structure"],
+                weaknesses: ["rigid", "can't let go"]
             },
             {
                 emoji: "4️⃣",
                 name: "Purpose",
-                meaning: "Your motivation comes from having a mission. When you know your direction you become unstoppable, but without a goal your energy collapses.",
-                strengths: ["Relentless drive and long term focus."],
-                weaknesses: ["Vulnerable when uncertain or directionless."]
+                meaning: "I need a mission to feel alive.",
+                strengths: ["relentless", "determined"],
+                weaknesses: ["collapse when goal unclear"]
             }
         ]
     },
@@ -43,23 +43,23 @@ const quizData = [
             {
                 emoji: "1️⃣",
                 name: "Anger",
-                meaning: "Stress triggers aggression and pushback. You respond by fighting force with force.",
-                strengths: ["Powerful defence and refusal to be dominated."],
-                weaknesses: ["Burns bridges and escalates conflict unnecessarily."]
+                meaning: "I get aggressive when stressed.",
+                strengths: ["powerful pushback"],
+                weaknesses: ["burns bridges"]
             },
             {
                 emoji: "2️⃣",
                 name: "Withdrawal",
-                meaning: "Under pressure you retreat to safety and distance. You prefer to step away rather than engage.",
-                strengths: ["Prevents escalation and allows reflection."],
-                weaknesses: ["Missed opportunities and later regret."]
+                meaning: "I pull away when overwhelmed.",
+                strengths: ["avoids escalation"],
+                weaknesses: ["misses chances", "regret later"]
             },
             {
                 emoji: "3️⃣",
                 name: "Numbness",
-                meaning: "Stress shuts down emotion and you become quiet and still. This creates an inner coldness that protects you from overload.",
-                strengths: ["Calm clarity in chaos."],
-                weaknesses: ["Inaction when decisive movement is needed."]
+                meaning: "I shut down my emotions under pressure.",
+                strengths: ["calm under pressure"],
+                weaknesses: ["stuck when action needed"]
             },
             {
                 emoji: "4️⃣",
