@@ -455,18 +455,44 @@ async function downloadResults() {
         try {
             const origElems = modalContent.querySelectorAll('*');
             const cloneElems = clone.querySelectorAll('*');
+
+            function solidizeColor(col) {
+                if (!col) return '';
+                // handle rgba(...) -> rgb(...)
+                const m = col.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([0-9.]+))?\)/);
+                if (m) {
+                    return `rgb(${m[1]}, ${m[2]}, ${m[3]})`;
+                }
+                if (col === 'transparent') return '';
+                return col;
+            }
+
+            // also force the clone root to be fully opaque and inherit a solid background
+            clone.style.opacity = '1';
+            clone.style.filter = 'none';
+            clone.style.webkitFilter = 'none';
+            clone.style.mixBlendMode = 'normal';
+
             for (let i = 0; i < origElems.length; i++) {
                 const o = origElems[i];
                 const c = cloneElems[i];
                 if (!c) continue;
                 const s = window.getComputedStyle(o);
-                if (s) {
-                    c.style.color = s.color;
-                    c.style.backgroundColor = s.backgroundColor;
-                    c.style.opacity = '1';
-                    c.style.filter = 'none';
-                    c.style.boxShadow = s.boxShadow;
-                }
+                if (!s) continue;
+
+                // solid color without alpha
+                const solidColor = solidizeColor(s.color);
+                const solidBg = solidizeColor(s.backgroundColor) || '';
+
+                if (solidColor) c.style.color = solidColor;
+                if (solidBg) c.style.backgroundColor = solidBg;
+
+                c.style.opacity = '1';
+                c.style.filter = 'none';
+                c.style.webkitFilter = 'none';
+                c.style.mixBlendMode = 'normal';
+                c.style.boxShadow = s.boxShadow || '';
+                c.style.textShadow = s.textShadow || '';
             }
         } catch (err) {
             // non-fatal; proceed
