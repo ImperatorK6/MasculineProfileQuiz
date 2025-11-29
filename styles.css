@@ -8,41 +8,47 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    font-size: 18px;
 }
 
 .container {
-    max-width: 800px;
-    padding: 20px;
+    max-width: 900px;
+    padding: 30px;
     text-align: center;
 }
 
 h1 {
     color: #007bff;
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    font-size: 3em;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .subtitle {
-    color: #cccccc;
-    font-size: 1.2em;
-    margin-bottom: 30px;
+    color: #ffffff;
+    font-size: 1.4em;
+    margin-bottom: 40px;
+    font-weight: bold;
 }
 
 #quiz h2 {
     color: #ffffff;
-    font-size: 1.8em;
-    margin-bottom: 20px;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: bold;
 }
 
 .option {
     background-color: #1a1a1a;
-    border: 1px solid #007bff;
+    border: 2px solid #007bff;
     color: #ffffff;
-    padding: 15px;
-    margin: 10px 0;
+    padding: 20px;
+    margin: 15px 0;
     cursor: pointer;
     transition: background-color 0.3s;
     text-align: left;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 .option:hover {
@@ -52,37 +58,42 @@ h1 {
 
 #results h2 {
     color: #007bff;
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 2.5em;
+    margin-bottom: 25px;
+    font-weight: bold;
 }
 
 .result-item {
     background-color: #1a1a1a;
-    border: 1px solid #007bff;
-    padding: 15px;
-    margin: 10px 0;
+    border: 2px solid #007bff;
+    padding: 20px;
+    margin: 15px 0;
     text-align: left;
+    font-size: 1.1em;
 }
 
 .result-item h3 {
     color: #007bff;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .result-item p {
-    color: #cccccc;
-    margin: 5px 0;
+    color: #ffffff;
+    margin: 8px 0;
+    font-weight: bold;
 }
 
 #download-pdf {
     background-color: #007bff;
     color: #000000;
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2em;
+    padding: 20px 40px;
+    font-size: 1.3em;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 25px;
     transition: background-color 0.3s;
+    font-weight: bold;
 }
 
 #download-pdf:hover {
