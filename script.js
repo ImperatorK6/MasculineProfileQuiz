@@ -1,334 +1,312 @@
+// Quiz data
 const questions = [
     {
-        title: "QUESTION 1 — Core Nature",
-        subtitle: "How you recharge:",
+        objective: "Identify your core trait.",
+        question: "How you regain energy",
         options: [
-            "Solitude — “I recharge by being alone.”",
-            "Thinking — “I feel better when I understand everything.”",
-            "Taking control — “I stabilise chaos by taking charge.”",
-            "Purpose — “I need a mission to feel alive.”"
-        ],
-        results: [
-            {
-                name: "Solitude",
-                description: "You regain power by withdrawing from the world and returning to your internal command room. Silence, space, and distance sharpen your thoughts. You perform best when no one is draining you and no chaos is interrupting your clarity.",
-                strength: "Exceptional self sufficiency and strong focus when alone.",
-                weakness: "Isolation becomes a prison and you may push people away."
-            },
-            {
-                name: "Thinking",
-                description: "Your energy comes from ideas, frameworks, and planning. A clear mental map is your fuel. When you understand a situation your confidence returns and your actions become sharp.",
-                strength: "Excellent at structuring problems and staying organised.",
-                weakness: "Overanalysis delays action and kills momentum."
-            },
-            {
-                name: "Taking control",
-                description: "You feel strongest when you impose structure on chaos. Disorder activates your leadership instinct and brings out your decisiveness.",
-                strength: "Initiative, direction, and natural command.",
-                weakness: "Difficulty delegating and tension when control slips."
-            },
-            {
-                name: "Purpose",
-                description: "Your motivation comes from having a mission. When you know your direction you become unstoppable, but without a goal your energy collapses.",
-                strength: "Relentless drive and long term focus.",
-                weakness: "Vulnerable when uncertain or directionless."
-            }
+            "I withdraw and recharge alone.",
+            "I clear my mind by thinking.",
+            "I stabilise situations and take control.",
+            "I refocus myself through purpose."
         ]
     },
     {
-        title: "QUESTION 2 — Shadow Instinct",
-        subtitle: "What takes over under stress:",
+        objective: "Identify your core trait.",
+        question: "Your instinct under stress",
         options: [
-            "Anger — “I get aggressive when stressed.”",
-            "Withdrawal — “I pull away when overwhelmed.”",
-            "Numbness — “I shut down my emotions under pressure.”",
-            "Pleasing — “I try to keep everyone calm when afraid.”"
-        ],
-        results: [
-            {
-                name: "Anger",
-                description: "Stress triggers aggression and pushback. You respond by fighting force with force.",
-                strength: "Powerful defence and refusal to be dominated.",
-                weakness: "Burns bridges and escalates conflict unnecessarily."
-            },
-            {
-                name: "Withdrawal",
-                description: "Under pressure you retreat to safety and distance. You prefer to step away rather than engage.",
-                strength: "Prevents escalation and allows reflection.",
-                weakness: "Missed opportunities and later regret."
-            },
-            {
-                name: "Numbness",
-                description: "Stress shuts down emotion and you become quiet and still. This creates an inner coldness that protects you from overload.",
-                strength: "Calm clarity in chaos.",
-                weakness: "Inaction when decisive movement is needed."
-            },
-            {
-                name: "Pleasing",
-                description: "You attempt to reduce threat by adapting to others and maintaining peace.",
-                strength: "Skilled at harmony and reading people.",
-                weakness: "Loses boundaries and sacrifices yourself."
-            }
+            "I get angry and push back.",
+            "I retreat or stay quiet.",
+            "I go numb and shut down.",
+            "I try to keep the peace."
         ]
     },
     {
-        title: "QUESTION 3 — Wound Shape",
-        subtitle: "The pain that built your armour:",
+        objective: "Identify your core trait.",
+        question: "The wound that shaped you most",
         options: [
-            "Rejection — “I learned to rely only on myself.”",
-            "Invalidation — “I built myself because no one listened to me.”",
-            "Humiliation — “I avoid failure because I’ve been shamed before.”",
-            "Exposure — “I hide parts of myself to feel safe.”"
-        ],
-        results: [
-            {
-                name: "Rejection",
-                description: "Your armour was forged by exclusion or abandonment. You learned not to depend on anyone.",
-                strength: "Fierce independence and inner stability.",
-                weakness: "Difficulty with vulnerability and closeness."
-            },
-            {
-                name: "Invalidation",
-                description: "Your voice was dismissed or ignored. You built a strong internal identity in response.",
-                strength: "Clear sense of self and solid boundaries.",
-                weakness: "Sensitive to disrespect and quick reactions."
-            },
-            {
-                name: "Humiliation",
-                description: "Past embarrassment or shame made dignity sacred to you. You avoid being mocked again.",
-                strength: "High standards and disciplined behaviour.",
-                weakness: "Perfectionism and fear of mistakes."
-            },
-            {
-                name: "Exposure",
-                description: "You were judged or observed too harshly. You learned to hide and stay guarded.",
-                strength: "Sharp social awareness.",
-                weakness: "Anxiety in groups and fear of being seen."
-            }
+            "I grew up facing rejection.",
+            "I grew up being invalidated.",
+            "I grew up being humiliated.",
+            "I grew up being exposed or judged."
         ]
     },
     {
-        title: "QUESTION 4 — Real Strengths",
-        subtitle: "What you consistently do well:",
+        objective: "Identify your core trait.",
+        question: "Your natural strength",
         options: [
-            "Independence — “I trust my own judgement.”",
-            "Discipline — “I stay consistent even when motivation dies.”",
-            "Loyalty — “I stay committed to the people I choose.”",
-            "Integrity — “I stick to my principles no matter what.”"
-        ],
-        results: [
-            {
-                name: "Independence",
-                description: "You trust your own judgement and prefer to operate alone.",
-                strength: "Unshakeable authority over yourself.",
-                weakness: "Slow to trust and difficulty collaborating."
-            },
-            {
-                name: "Discipline",
-                description: "You show up consistently and maintain structure.",
-                strength: "Reliability and strong work ethic.",
-                weakness: "Hard on yourself and difficulty resting."
-            },
-            {
-                name: "Loyalty",
-                description: "You commit deeply and stand by the people you choose.",
-                strength: "Strong relationships and honourable behaviour.",
-                weakness: "Betrayal is devastating and slow to heal."
-            },
-            {
-                name: "Integrity",
-                description: "Your behaviour aligns with your values. You act truthfully even when costly.",
-                strength: "Respect, trustworthiness, strong moral compass.",
-                weakness: "Rigidity and intolerance for compromise."
-            }
+            "I rely on independence.",
+            "I rely on discipline.",
+            "I rely on loyalty.",
+            "I rely on integrity."
         ]
     },
     {
-        title: "QUESTION 5 — Self Sabotage Point",
-        subtitle: "Where you break your own momentum:",
+        objective: "Identify your core trait.",
+        question: "How you sabotage yourself",
         options: [
-            "Overthinking — “I think too long before acting.”",
-            "Avoidance — “I avoid things that stress me.”",
-            "Self doubt — “I question my own abilities.”",
-            "Unstable energy — “My energy goes up and down unpredictably.”"
-        ],
-        results: [
-            {
-                name: "Overthinking",
-                description: "You want clarity before action and analyse every angle.",
-                strength: "High accuracy and minimal mistakes.",
-                weakness: "Lost momentum and delayed action."
-            },
-            {
-                name: "Avoidance",
-                description: "You escape discomfort, conflict, or tasks when overwhelmed.",
-                strength: "Good danger awareness and risk sensing.",
-                weakness: "Life moves without you and guilt grows."
-            },
-            {
-                name: "Self doubt",
-                description: "You question your worth or abilities.",
-                strength: "Humility and careful judgement.",
-                weakness: "Blocked ambition and low confidence."
-            },
-            {
-                name: "Unstable energy",
-                description: "Your energy fluctuates strongly.",
-                strength: "Powerful bursts of performance.",
-                weakness: "Inconsistency and difficulty finishing long tasks."
-            }
+            "I overthink things.",
+            "I avoid difficult actions.",
+            "I doubt myself.",
+            "My energy is unstable."
         ]
     },
     {
-        title: "QUESTION 6 — Masculine Core",
-        subtitle: "What makes you a man internally:",
+        objective: "Identify your core trait.",
+        question: "What defines your masculinity internally",
         options: [
-            "Responsibility — “I measure myself by the duties I carry.”",
-            "Order — “I need structure and clarity.”",
-            "Courage — “I act even when I’m scared.”",
-            "Honour — “I live by my moral code.”"
-        ],
-        results: [
-            {
-                name: "Responsibility",
-                description: "You define manhood by the weight you can carry and the duties you accept.",
-                strength: "Natural respect and dependability.",
-                weakness: "Overload and burnout."
-            },
-            {
-                name: "Order",
-                description: "You value structure clarity and stability.",
-                strength: "Creates stability for yourself and others.",
-                weakness: "Irritation with chaos and disorganised people."
-            },
-            {
-                name: "Courage",
-                description: "You face difficulty directly and act despite fear.",
-                strength: "Boldness and protective instinct.",
-                weakness: "Taking risks alone and refusing assistance."
-            },
-            {
-                name: "Honour",
-                description: "Your identity is tied to truth fairness and loyalty.",
-                strength: "Inspires trust and earns admiration.",
-                weakness: "Deep wounds from betrayal and holding grudges."
-            }
+            "Responsibility.",
+            "Order.",
+            "Courage.",
+            "Honour."
         ]
     },
     {
-        title: "QUESTION 7 — Direction of Growth",
-        subtitle: "Where your life is pushing you:",
+        objective: "Identify your core trait.",
+        question: "Where your life is pushing you",
         options: [
-            "Knowledge — “I’m being pushed to learn and master more.”",
-            "Strength — “I need to build my physical and mental power.”",
-            "Leadership — “I’m meant to guide and influence others.”",
-            "Legacy — “I’m meant to build something that lasts.”"
-        ],
-        results: [
-            {
-                name: "Knowledge",
-                description: "Life pushes you toward mastery and understanding.",
-                strength: "Insight depth and competence.",
-                weakness: "Remaining in theory instead of applying."
-            },
-            {
-                name: "Strength",
-                description: "Your path demands physical and mental power.",
-                strength: "Stronger presence and resilience.",
-                weakness: "Burnout or injury risk."
-            },
-            {
-                name: "Leadership",
-                description: "Your growth moves you into guiding others.",
-                strength: "Influence direction and authority.",
-                weakness: "Heavy responsibility and criticism."
-            },
-            {
-                name: "Legacy",
-                description: "You are pushed toward long term purpose and building something that lasts.",
-                strength: "Vision consistency and meaning.",
-                weakness: "Fear of wasting life and existential pressure."
-            }
+            "Knowledge.",
+            "Strength.",
+            "Leadership.",
+            "Legacy."
         ]
     }
 ];
 
+// Results data for each question's options
+const resultsData = [
+    // Question 1
+    [
+        {
+            title: "Solitude",
+            description: "You regain strength by withdrawing into your own world — where your thoughts sharpen, your emotions settle, and the outside noise stops interfering with your inner command. Strength: You can rebuild yourself entirely without anyone’s help. Few men possess that level of inner discipline. Weakness: When solitude becomes your default, you risk believing that you must carry every burden alone, even when partnership or support would make you stronger rather than weaker."
+        },
+        {
+            title: "Thinking",
+            description: "Clarity is your fuel. When your mind understands something fully, your energy rises as if a knot has been untied inside you. Strength: Your strategic mind makes you exceptionally rational. Weakness: You can become trapped in your own head, mistaking thought for progress and delaying decisive movement."
+        },
+        {
+            title: "Taking control",
+            description: "Your energy returns the moment you impose order — reorganising, correcting, fixing, commanding. Strength: You’re naturally suited to leadership. Weakness: You may grip too tightly. When you lose control, even slightly, you can crash internally."
+        },
+        {
+            title: "Purpose",
+            description: "When you know your mission, your energy becomes fierce and unstoppable. Strength: Meaning fuels you more than comfort ever could. Weakness: When the mission becomes unclear, you lose stability — as if your internal compass has gone dark."
+        }
+    ],
+    // Question 2
+    [
+        {
+            title: "Anger (fight)",
+            description: "Your stress turns into force — your chest tightens, your jaw clenches, and you push back to regain control. Strength: You refuse to be overpowered. Weakness: Rage can make you misjudge the battlefield and damage connections unintentionally."
+        },
+        {
+            title: "Withdrawal (flight)",
+            description: "You retreat to regain clarity, not to surrender. Strength: It prevents you from saying or doing something reckless. Weakness: You hide longer than necessary, letting chances slip by whilst you process."
+        },
+        {
+            title: "Numbness (freeze)",
+            description: "Your mind goes still, your emotions shut down, and you become a quiet observer while everything rushes around you. Strength: You can survive chaos without panic. Weakness: You may fail to seize critical moments."
+        },
+        {
+            title: "Pleasing (fawn)",
+            description: "You de-escalate instantly, softening yourself to survive the emotional threat. Strength: You can control tension quickly. Weakness: You betray your own needs to keep the peace."
+        }
+    ],
+    // Question 3
+    [
+        {
+            title: "Rejection",
+            description: "You learned early that you must rely on yourself. Strength: You became fiercely independent. Weakness: You struggle to let people inside your guard."
+        },
+        {
+            title: "Invalidation",
+            description: "You were taught that your feelings or identity were “wrong”. Strength: You developed a strong, unshakeable sense of self. Weakness: Disrespect hits you harder than most men."
+        },
+        {
+            title: "Humiliation",
+            description: "You experienced moments where you felt small, exposed, or powerless. Strength: You built immense dignity and personal pride. Weakness: You fear shame and push perfectionism to avoid it."
+        },
+        {
+            title: "Exposure",
+            description: "You were seen or judged before you were ready. Strength: You became observant, cautious, perceptive. Weakness: You hide your vulnerabilities too well, even from yourself."
+        }
+    ],
+    // Question 4
+    [
+        {
+            title: "Independence",
+            description: "You’re built to stand alone and command yourself. Strength: You cannot be manipulated easily. Weakness: You trust slowly, sometimes too slowly."
+        },
+        {
+            title: "Discipline",
+            description: "Your strength is consistency and standards. Strength: People rely on you. Weakness: You punish yourself for every misstep."
+        },
+        {
+            title: "Loyalty",
+            description: "When you love or commit, you do so with depth. Strength: You’re unshakeable once you decide someone is yours. Weakness: Betrayal destroys you internally."
+        },
+        {
+            title: "Integrity",
+            description: "Your identity is built around principle. Strength: You become a stable anchor for others. Weakness: You may resist necessary compromise."
+        }
+    ],
+    // Question 5
+    [
+        {
+            title: "Overthinking",
+            description: "You dissect every possibility until momentum dies. Strength: High intelligence. Weakness: You lose time and courage to hesitation."
+        },
+        {
+            title: "Avoidance",
+            description: "You dodge discomfort, often without realising it. Strength: You sense danger early. Weakness: You miss opportunities and progress stalls."
+        },
+        {
+            title: "Self-doubt",
+            description: "Your inner critic is louder than your ambition. Strength: You’re humble and careful. Weakness: You fail to step into your true potential."
+        },
+        {
+            title: "Unstable energy",
+            description: "You operate in waves — intense highs, silent lows. Strength: When you rise, you are powerful. Weakness: Consistency becomes difficult."
+        }
+    ],
+    // Question 6
+    [
+        {
+            title: "Responsibility",
+            description: "You measure yourself by what you carry. Strength: You’re dependable and respected. Weakness: You take on far too much alone."
+        },
+        {
+            title: "Order",
+            description: "Your masculinity is structure, clarity, precision. Strength: You bring stability everywhere. Weakness: You cannot stand chaos, especially in people."
+        },
+        {
+            title: "Courage",
+            description: "You act even when you’re afraid. Strength: You confront life head-on. Weakness: You refuse support, believing it’s weakness."
+        },
+        {
+            title: "Honour",
+            description: "You live by an inner code. Strength: You’re unshakeable in truth and loyalty. Weakness: Betrayal feels like a wound to the soul."
+        }
+    ],
+    // Question 7
+    [
+        {
+            title: "Knowledge",
+            description: "Life is shaping you into a master of understanding. Strength: Sharp mind, deep insight. Weakness: You risk living too much in theory."
+        },
+        {
+            title: "Strength",
+            description: "You’re being forged to become resilient and formidable. Strength: Presence, confidence, endurance. Weakness: Burnout from pushing too hard."
+        },
+        {
+            title: "Leadership",
+            description: "Your life is pushing you into command. Strength: Influence, structure, authority. Weakness: The responsibility can become crushing."
+        },
+        {
+            title: "Legacy",
+            description: "Your story is about impact, meaning, and what you will leave behind. Strength: Vision and purpose. Weakness: You fear wasting your gifts."
+        }
+    ]
+];
+
+// Codename mapping (simplified, based on first answer)
+const codenames = ["THE STRATEGIST", "THE LONE WOLF", "THE COMMANDER", "THE ANCHOR"];
+
 let currentQuestion = 0;
 let answers = [];
 
-function displayQuestion() {
-    const question = questions[currentQuestion];
-    document.getElementById('question-title').innerHTML = `${question.title}<br><small>${question.subtitle}</small>`;
+document.addEventListener('DOMContentLoaded', () => {
+    initBootScreen();
+});
+
+function initBootScreen() {
+    const typingText = document.getElementById('typing-text');
+    const beginBtn = document.getElementById('begin-btn');
+    const text = "INITIALISING SYSTEM…\nMASCULINE PROFILE QUIZ LOADING…\nTACTICAL INTERFACE READY.";
+    let i = 0;
+
+    function typeWriter() {
+        if (i < text.length) {
+            typingText.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 50);
+        } else {
+            beginBtn.style.display = 'block';
+        }
+    }
+
+    typeWriter();
+
+    beginBtn.addEventListener('click', startQuiz);
+}
+
+function startQuiz() {
+    document.getElementById('boot-screen').classList.remove('active');
+    document.getElementById('question-screen').classList.add('active');
+    showQuestion();
+}
+
+function showQuestion() {
+    const sectionNum = document.getElementById('section-num');
+    const objective = document.getElementById('objective');
+    const questionText = document.getElementById('question-text');
     const optionsDiv = document.getElementById('options');
+
+    sectionNum.textContent = currentQuestion + 1;
+    objective.textContent = `Objective: ${questions[currentQuestion].objective}`;
+    questionText.textContent = questions[currentQuestion].question;
+
     optionsDiv.innerHTML = '';
-    question.options.forEach((option, index) => {
-        const button = document.createElement('div');
-        button.className = 'option';
-        button.innerHTML = option;
-        button.onclick = () => handleAnswer(index);
-        optionsDiv.appendChild(button);
+    questions[currentQuestion].options.forEach((option, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        optionDiv.textContent = option;
+        optionDiv.addEventListener('click', () => selectOption(index));
+        optionsDiv.appendChild(optionDiv);
     });
 }
 
-function handleAnswer(optionIndex) {
-    answers.push(optionIndex);
+function selectOption(index) {
+    answers.push(index);
     currentQuestion++;
     if (currentQuestion < questions.length) {
-        displayQuestion();
+        showQuestion();
     } else {
         showResults();
     }
 }
 
 function showResults() {
-    document.getElementById('quiz').style.display = 'none';
-    document.getElementById('results').style.display = 'block';
-    const resultList = document.getElementById('result-list');
-    resultList.innerHTML = '';
-    questions.forEach((question, index) => {
-        const selected = answers[index];
-        const result = question.results[selected];
-        const item = document.createElement('div');
-        item.className = 'result-item';
-        item.innerHTML = `
-            <h3>${question.title}</h3>
-            <p><strong>${result.name}</strong></p>
-            <p>${result.description}</p>
-            <p><strong>Strength:</strong> ${result.strength}</p>
-            <p><strong>Weakness:</strong> ${result.weakness}</p>
-        `;
-        resultList.appendChild(item);
+    document.getElementById('question-screen').classList.remove('active');
+    document.getElementById('results-screen').classList.add('active');
+
+    const codenameDiv = document.getElementById('codename');
+    const breakdownDiv = document.getElementById('breakdown');
+    const directiveDiv = document.getElementById('directive');
+
+    // Simplified codename based on first answer
+    codenameDiv.textContent = codenames[answers[0]];
+
+    breakdownDiv.innerHTML = '';
+    answers.forEach((answer, index) => {
+        const panel = document.createElement('div');
+        panel.className = 'panel';
+        const result = resultsData[index][answer];
+        panel.innerHTML = `<h3>${result.title}</h3><p>${result.description}</p>`;
+        breakdownDiv.appendChild(panel);
     });
+
+    directiveDiv.innerHTML = '<h3>Recommended Operating Directive</h3><p>Embrace your strengths and confront your weaknesses head-on. Forge ahead with purpose and discipline.</p>';
+
+    // Export options
+    document.getElementById('export-pdf').addEventListener('click', () => alert('PDF export not implemented yet.'));
+    document.getElementById('copy-summary').addEventListener('click', copySummary);
+    document.getElementById('restart').addEventListener('click', () => location.reload());
 }
 
-document.getElementById('download-pdf').onclick = function() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.setFontSize(20);
-    doc.text('MASCULINE PROFILE QUIZ RESULTS', 20, 30);
-    let y = 50;
-    questions.forEach((question, index) => {
-        const selected = answers[index];
-        const result = question.results[selected];
-        doc.setFontSize(16);
-        doc.text(question.title, 20, y);
-        y += 10;
-        doc.setFontSize(14);
-        doc.text(result.name, 20, y);
-        y += 10;
-        const descriptionLines = doc.splitTextToSize(result.description, 170);
-        doc.text(descriptionLines, 20, y);
-        y += descriptionLines.length * 5;
-        doc.text(`Strength: ${result.strength}`, 20, y);
-        y += 10;
-        doc.text(`Weakness: ${result.weakness}`, 20, y);
-        y += 15;
-        if (y > 270) {
-            doc.addPage();
-            y = 30;
-        }
-    });
-    doc.save('MasculineProfileQuizResults.pdf');
-};
-
-displayQuestion();
+function copySummary() {
+    const summary = document.getElementById('codename').textContent + '\n\n' + 
+                    Array.from(document.querySelectorAll('.panel')).map(p => p.textContent).join('\n\n') + '\n\n' + 
+                    document.getElementById('directive').textContent;
+    navigator.clipboard.writeText(summary).then(() => alert('Summary copied to clipboard!'));
+}

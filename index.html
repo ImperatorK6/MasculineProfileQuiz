@@ -3,24 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASCULINE PROFILE QUIZ</title>
+    <title>Masculine Profile Quiz</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>MASCULINE PROFILE QUIZ</h1>
-        <p class="subtitle">Self-knowledge. No excuses.<br>Pick ONE answer per question.</p>
-        <div id="quiz">
-            <h2 id="question-title"></h2>
-            <div id="options"></div>
-        </div>
-        <div id="results" style="display: none;">
-            <h2><strong>RESULTS</strong></h2>
-            <div id="result-list"></div>
-            <button id="download-pdf"><strong>Download as PDF</strong></button>
+    <div id="boot-screen" class="screen active">
+        <div class="boot-content">
+            <h1>MASCULINE PROFILE QUIZ</h1>
+            <p>“A tactical assessment of your internal structure.”</p>
+            <div id="typing-text"></div>
+            <button id="begin-btn">BEGIN ANALYSIS</button>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <div id="question-screen" class="screen">
+        <div class="question-content">
+            <header>
+                <h2>MASCULINE PROFILE QUIZ – SECTION <span id="section-num">1</span>/7</h2>
+                <p id="objective">Objective: Identify your core trait.</p>
+            </header>
+            <div id="question-text"></div>
+            <div id="options" class="options-grid"></div>
+        </div>
+    </div>
+
+    <div id="results-screen" class="screen">
+        <div class="results-content">
+            <h2>DECRYPTING PROFILE…</h2>
+            <div id="codename"></div>
+            <div id="breakdown"></div>
+            <div id="directive"></div>
+            <div class="export-options">
+                <button id="export-pdf">Export as PDF</button>
+                <button id="copy-summary">Copy Summary</button>
+                <button id="restart">Restart Analysis</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

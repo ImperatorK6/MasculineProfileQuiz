@@ -1,101 +1,187 @@
+/* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #000000;
-    color: #ffffff;
     margin: 0;
     padding: 0;
-    display: flex;
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #30ff90;
+    overflow: hidden;
+}
+
+.screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    font-size: 18px;
+    flex-direction: column;
 }
 
-.container {
-    max-width: 900px;
-    padding: 30px;
+.screen.active {
+    display: flex;
+}
+
+/* Boot Screen */
+#boot-screen {
+    background: linear-gradient(45deg, #000, #111);
+}
+
+.boot-content {
     text-align: center;
+    max-width: 600px;
+    padding: 20px;
 }
 
-h1 {
-    color: #007bff;
+.boot-content h1 {
     font-size: 3em;
-    margin-bottom: 15px;
-    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px #30ff90;
 }
 
-.subtitle {
-    color: #ffffff;
-    font-size: 1.4em;
-    margin-bottom: 40px;
-    font-weight: bold;
+.boot-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
 }
 
-#quiz h2 {
-    color: #ffffff;
-    font-size: 2em;
-    margin-bottom: 25px;
-    font-weight: bold;
+#typing-text {
+    font-size: 1.5em;
+    height: 60px;
+    margin-bottom: 30px;
+    white-space: pre-line;
+}
+
+#begin-btn {
+    background: #30ff90;
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s;
+}
+
+#begin-btn:hover {
+    background: #fff;
+}
+
+/* Question Screen */
+#question-screen {
+    background: #000;
+}
+
+.question-content {
+    max-width: 800px;
+    padding: 20px;
+    background: rgba(50, 50, 50, 0.8);
+    border: 1px solid #30ff90;
+    border-radius: 5px;
+}
+
+header h2 {
+    margin-bottom: 10px;
+}
+
+#objective {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+#question-text {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
 .option {
-    background-color: #1a1a1a;
-    border: 2px solid #007bff;
-    color: #ffffff;
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid #30ff90;
     padding: 20px;
-    margin: 15px 0;
     cursor: pointer;
-    transition: background-color 0.3s;
-    text-align: left;
-    font-size: 1.1em;
-    font-weight: bold;
+    transition: all 0.3s;
+    text-align: center;
 }
 
 .option:hover {
-    background-color: #007bff;
-    color: #000000;
+    background: rgba(60, 60, 60, 0.8);
+    box-shadow: 0 0 10px #30ff90;
 }
 
-#results h2 {
-    color: #007bff;
-    font-size: 2.5em;
-    margin-bottom: 25px;
-    font-weight: bold;
+.option.selected {
+    background: #30ff90;
+    color: #000;
 }
 
-.result-item {
-    background-color: #1a1a1a;
-    border: 2px solid #007bff;
+/* Results Screen */
+#results-screen {
+    background: #000;
+}
+
+.results-content {
+    max-width: 800px;
     padding: 20px;
-    margin: 15px 0;
-    text-align: left;
-    font-size: 1.1em;
+    background: rgba(50, 50, 50, 0.8);
+    border: 1px solid #30ff90;
+    border-radius: 5px;
 }
 
-.result-item h3 {
-    color: #007bff;
-    margin-bottom: 15px;
-    font-weight: bold;
+#codename {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.result-item p {
-    color: #ffffff;
-    margin: 8px 0;
-    font-weight: bold;
+#breakdown {
+    margin-bottom: 30px;
 }
 
-#download-pdf {
-    background-color: #007bff;
-    color: #000000;
+.panel {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(30, 30, 30, 0.8);
+    border-left: 3px solid #30ff90;
+}
+
+#directive {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.export-options {
+    display: flex;
+    justify-content: space-around;
+}
+
+.export-options button {
+    background: #30ff90;
+    color: #000;
     border: none;
-    padding: 20px 40px;
-    font-size: 1.3em;
+    padding: 10px 20px;
     cursor: pointer;
-    margin-top: 25px;
-    transition: background-color 0.3s;
-    font-weight: bold;
+    text-transform: uppercase;
 }
 
-#download-pdf:hover {
-    background-color: #0056b3;
+/* Animations */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.typing {
+    overflow: hidden;
+    border-right: 2px solid #30ff90;
+    animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #30ff90; }
 }
