@@ -9,6 +9,17 @@
 <body>
   <div id="boot-screen" class="screen">
     <div class="boot-inner">
+      <div class="title-section">
+        <h1 class="main-title">MASCULINE PROFILE QUIZ</h1>
+        <p class="subtitle">“A tactical assessment of your internal structure.”</p>
+        <div class="logo">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l6 4v5c0 5-3.5 9-6 11-2.5-2-6-6-6-11V6l6-4z" stroke="#bfa85a" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            <path d="M12 7v5l3 3" stroke="#30ff90" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="tagline">“Self-knowledge is strength. Begin analysis.”</p>
+      </div>
       <pre id="boot-text" class="boot-text"></pre>
       <button id="begin-btn" class="btn">BEGIN ANALYSIS</button>
     </div>
@@ -16,8 +27,7 @@
 
   <div id="quiz-screen" class="screen hidden">
     <header class="hud">
-      <div class="logo" aria-hidden="true">
-        <!-- simple shield/compass SVG, minimal lines -->
+      <div class="logo">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2l6 4v5c0 5-3.5 9-6 11-2.5-2-6-6-6-11V6l6-4z" stroke="#bfa85a" stroke-width="0.9" fill="none" stroke-linejoin="round"/>
           <path d="M12 7v5l3 3" stroke="#30ff90" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
@@ -45,10 +55,12 @@
     <div class="result-inner">
       <div id="decrypting" class="decrypting">DECRYPTING PROFILE…</div>
       <div id="result-card" class="result-card hidden">
-        <div class="codename">
-          <div class="codename-title">Codename</div>
-          <div id="codename-text" class="codename-text">THE STRATEGIST</div>
-          <div id="profile-code" class="code">M-14 S-09</div>
+        <div class="codename-section">
+          <div class="codename">
+            <div class="codename-title">Codename</div>
+            <div id="codename-text" class="codename-text">THE STRATEGIST</div>
+            <div id="profile-code" class="code">M-14 S-09</div>
+          </div>
         </div>
 
         <div id="breakdown" class="breakdown"></div>
@@ -68,7 +80,7 @@
     </div>
   </div>
 
-  <!-- html2pdf for direct PDF generation (optional CDN) -->
+  <!-- html2pdf for direct PDF generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
