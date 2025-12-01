@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MASCULINE PROFILE QUIZ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="boot-screen" class="screen">
+    <div class="boot-inner">
+      <pre id="boot-text" class="boot-text"></pre>
+      <button id="begin-btn" class="btn">BEGIN ANALYSIS</button>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="screen hidden">
+    <header class="hud">
+      <div class="logo" aria-hidden="true">
+        <!-- simple shield/compass SVG, minimal lines -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l6 4v5c0 5-3.5 9-6 11-2.5-2-6-6-6-11V6l6-4z" stroke="#bfa85a" stroke-width="0.9" fill="none" stroke-linejoin="round"/>
+          <path d="M12 7v5l3 3" stroke="#30ff90" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="title">MASCULINE PROFILE QUIZ</div>
+      <div id="section-label" class="section">SECTION 1/7</div>
+    </header>
+
+    <main class="panel">
+      <div id="progress-bar" class="progress"><div class="progress-fill"></div></div>
+      <h2 id="section-header" class="section-header">Objective: Identify your core trait.</h2>
+      <h1 id="question-title" class="question-title">Question text</h1>
+
+      <div id="options" class="options-grid"></div>
+
+      <div class="controls">
+        <button id="prev-btn" class="btn ghost">PREV</button>
+        <button id="next-btn" class="btn" disabled>NEXT</button>
+      </div>
+    </main>
+  </div>
+
+  <div id="result-screen" class="screen hidden">
+    <div class="result-inner">
+      <div id="decrypting" class="decrypting">DECRYPTING PROFILE…</div>
+      <div id="result-card" class="result-card hidden">
+        <div class="codename">
+          <div class="codename-title">Codename</div>
+          <div id="codename-text" class="codename-text">THE STRATEGIST</div>
+          <div id="profile-code" class="code">M-14 S-09</div>
+        </div>
+
+        <div id="breakdown" class="breakdown"></div>
+
+        <div class="directive">
+          <h3>Recommended Operating Directive</h3>
+          <p id="directive-text"></p>
+        </div>
+
+        <div class="result-actions">
+          <button id="export-pdf" class="btn">EXPORT (Print / PDF)</button>
+          <button id="download-pdf" class="btn">DOWNLOAD PDF</button>
+          <button id="copy-summary" class="btn ghost">COPY SUMMARY</button>
+          <button id="restart" class="btn alt">RESTART ANALYSIS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- html2pdf for direct PDF generation (optional CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MASCULINE PROFILE QUIZ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="boot-screen" class="screen">
+    <div class="boot-inner">
+      <pre id="boot-text" class="boot-text"></pre>
+      <button id="begin-btn" class="btn">BEGIN ANALYSIS</button>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="screen hidden">
+    <header class="hud">
+      <div class="logo" aria-hidden="true">
+        <!-- simple shield/compass SVG, minimal lines -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l6 4v5c0 5-3.5 9-6 11-2.5-2-6-6-6-11V6l6-4z" stroke="#bfa85a" stroke-width="0.9" fill="none" stroke-linejoin="round"/>
+          <path d="M12 7v5l3 3" stroke="#30ff90" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="title">MASCULINE PROFILE QUIZ</div>
+      <div id="section-label" class="section">SECTION 1/7</div>
+    </header>
+
+    <main class="panel">
+      <div id="progress-bar" class="progress"><div class="progress-fill"></div></div>
+      <h2 id="section-header" class="section-header">Objective: Identify your core trait.</h2>
+      <h1 id="question-title" class="question-title">Question text</h1>
+
+      <div id="options" class="options-grid"></div>
+
+      <div class="controls">
+        <button id="prev-btn" class="btn ghost">PREV</button>
+        <button id="next-btn" class="btn" disabled>NEXT</button>
+      </div>
+    </main>
+  </div>
+
+  <div id="result-screen" class="screen hidden">
+    <div class="result-inner">
+      <div id="decrypting" class="decrypting">DECRYPTING PROFILE…</div>
+      <div id="result-card" class="result-card hidden">
+        <div class="codename">
+          <div class="codename-title">Codename</div>
+          <div id="codename-text" class="codename-text">THE STRATEGIST</div>
+          <div id="profile-code" class="code">M-14 S-09</div>
+        </div>
+
+        <div id="breakdown" class="breakdown"></div>
+
+        <div class="directive">
+          <h3>Recommended Operating Directive</h3>
+          <p id="directive-text"></p>
+        </div>
+
+        <div class="result-actions">
+          <button id="export-pdf" class="btn">EXPORT (Print / PDF)</button>
+          <button id="download-pdf" class="btn">DOWNLOAD PDF</button>
+          <button id="copy-summary" class="btn ghost">COPY SUMMARY</button>
+          <button id="restart" class="btn alt">RESTART ANALYSIS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- html2pdf for direct PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script src="enhancements.js"></script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MASCULINE PROFILE QUIZ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="boot-screen" class="screen">
+    <div class="boot-inner">
+      <pre id="boot-text" class="boot-text"></pre>
+      <button id="begin-btn" class="btn">BEGIN ANALYSIS</button>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="screen hidden">
+    <header class="hud">
+      <div class="logo" aria-hidden="true">
+        <!-- simple shield/compass SVG, minimal lines -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l6 4v5c0 5-3.5 9-6 11-2.5-2-6-6-6-11V6l6-4z" stroke="#bfa85a" stroke-width="0.9" fill="none" stroke-linejoin="round"/>
+          <path d="M12 7v5l3 3" stroke="#30ff90" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="title">MASCULINE PROFILE QUIZ</div>
+      <div id="section-label" class="section">SECTION 1/7</div>
+    </header>
+
+    <main class="panel">
+      <div id="progress-bar" class="progress"><div class="progress-fill"></div></div>
+      <h2 id="section-header" class="section-header">Objective: Identify your core trait.</h2>
+      <h1 id="question-title" class="question-title">Question text</h1>
+
+      <div id="options" class="options-grid"></div>
+
+      <div class="controls">
+        <button id="prev-btn" class="btn ghost">PREV</button>
+        <button id="next-btn" class="btn" disabled>NEXT</button>
+      </div>
+    </main>
+  </div>
+
+  <div id="result-screen" class="screen hidden">
+    <div class="result-inner">
+      <div id="decrypting" class="decrypting">DECRYPTING PROFILE…</div>
+      <div id="result-card" class="result-card hidden">
+        <div class="codename">
+          <div class="codename-title">Codename</div>
+          <div id="codename-text" class="codename-text">THE STRATEGIST</div>
+          <div id="profile-code" class="code">M-14 S-09</div>
+        </div>
+
+        <div id="breakdown" class="breakdown"></div>
+
+        <div class="directive">
+          <h3>Recommended Operating Directive</h3>
+          <p id="directive-text"></p>
+        </div>
+
+        <div class="result-actions">
+          <button id="export-pdf" class="btn">EXPORT (Print / PDF)</button>
+          <button id="download-pdf" class="btn">DOWNLOAD PDF</button>
+          <button id="copy-summary" class="btn ghost">COPY SUMMARY</button>
+          <button id="restart" class="btn alt">RESTART ANALYSIS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- html2pdf for direct PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script src="enhancements.js"></script>
+</body>
+</html>
