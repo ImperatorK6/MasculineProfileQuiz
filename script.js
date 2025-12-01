@@ -1,4 +1,3 @@
-@ -1,354 +0,0 @@
 // Masculine Profile Quiz - interactive logic
 const QUESTIONS = [
   {
@@ -68,7 +67,7 @@ const QUESTIONS = [
       {code:'A', title:'Knowledge', text:'I am being shaped into someone who understands, analyses, and masters systems.'},
       {code:'B', title:'Strength', text:'Life is forging me into someone resilient and unbroken.'},
       {code:'C', title:'Leadership', text:'My path pushes me to guide others and take command.'},
-      {code:'D', title:'Legacy', text:'I am meant to build something lasting that carries my name beyond my life.}
+      {code:'D', title:'Legacy', text:'I am meant to build something lasting that carries my name beyond my life.'}
     ]
   }
 ];
@@ -93,7 +92,7 @@ const RESULTS = {
     C:{title:'Humiliation',desc:'You felt small, exposed, or powerless.',strength:'You built immense dignity and personal pride.',weakness:'You fear shame and push perfectionism.'},
     D:{title:'Exposure',desc:'You were seen or judged before you were ready.',strength:'You became observant and perceptive.',weakness:'You hide your vulnerabilities too well.'}
   },
-  4:{
+  4: {
     A:{title:'Independence',desc:'You’re built to stand alone and command yourself.',strength:'You cannot be manipulated easily.',weakness:'You trust slowly.'},
     B:{title:'Discipline',desc:'Your strength is consistency and standards.',strength:'People rely on you.',weakness:'You punish yourself for every misstep.'},
     C:{title:'Loyalty',desc:'When you love or commit, you do so with depth.',strength:'You’re unshakeable once you decide someone is yours.',weakness:'Betrayal destroys you internally.'},
@@ -138,6 +137,7 @@ const profileCode = document.getElementById('profile-code');
 const breakdown = document.getElementById('breakdown');
 const directiveText = document.getElementById('directive-text');
 const exportPdf = document.getElementById('export-pdf');
+const downloadPdf = document.getElementById('download-pdf');
 const copySummary = document.getElementById('copy-summary');
 const restartBtn = document.getElementById('restart');
 
@@ -163,7 +163,11 @@ function typeBoot(){
   let li=0;
   bootText.textContent='';
   function nextLine(){
-    if(li>=bootLines.length) return;
+    if(li>=bootLines.length){
+      // Animation complete, show the button
+      beginBtn.classList.remove('hidden');
+      return;
+    }
     const line = bootLines[li++];
     let i=0;
     const intr = setInterval(()=>{
@@ -174,7 +178,10 @@ function typeBoot(){
   nextLine();
 }
 
-typeBoot();
+// Wait for DOM to load
+document.addEventListener('DOMContentLoaded', () => {
+  typeBoot();
+});
 
 beginBtn.addEventListener('click', ()=>{
   clickSound();
@@ -295,6 +302,18 @@ exportPdf.addEventListener('click', ()=>{
   w.document.close();
   // allow time to render then trigger print
   setTimeout(()=>{ w.focus(); w.print(); }, 300);
+});
+
+downloadPdf.addEventListener('click', ()=>{
+  const element = document.getElementById('result-card');
+  const opt = {
+    margin: 1,
+    filename: `${codenameText.textContent.replace(/\s+/g, '_')}_Profile.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, backgroundColor: '#000000' },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
 });
 
 copySummary.addEventListener('click', async ()=>{
