@@ -42,7 +42,7 @@ html,body{height:100%;margin:0;color:#000;background:var(--bg);}
 .options-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .option{padding:14px;border-radius:8px;border:1px solid #ccc;background:linear-gradient(180deg,#f0f0f0,transparent);cursor:pointer;position:relative;overflow:hidden}
 .option h4{margin:0;color:#000}
-.option p{margin:6px 0 0;color:#000;font-size:14px}
+.option p{margin:6px 0 0;color:#fff;font-size:14px}
 .option:hover{box-shadow:0 6px 20px rgba(0,0,0,0.1);outline:1px solid #ccc}
 .option.locked{background:linear-gradient(180deg,#e0e0e0,transparent);border:1px solid #ccc}
 .option .lock{position:absolute;right:10px;top:10px;width:28px;height:28px;border-radius:4px;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
