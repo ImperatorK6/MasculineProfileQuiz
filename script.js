@@ -177,63 +177,64 @@ function typeBoot(){
   nextLine();
 }
 
-// Wait for DOM to load
-document.addEventListener('DOMContentLoaded', () => {
-  typeBoot();
+// Initialize boot
+typeBoot();
 
-  beginBtn.addEventListener('click', ()=>{
-    clickSound();
-    bootScreen.classList.add('hidden');
-    quizScreen.classList.remove('hidden');
-    renderQuestion();
-  });
+// Attach event listeners
+beginBtn.addEventListener('click', ()=>{
+  clickSound();
+  bootScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  renderQuestion();
+});
 
-  prevBtn.addEventListener('click', ()=>{
-    if(current>0){ current--; renderQuestion(); }
-  });
+prevBtn.addEventListener('click', ()=>{
+  if(current>0){ current--; renderQuestion(); }
+});
 
-  nextBtn.addEventListener('click', ()=>{
-    if(answers[current]===null){ errorBuzz(); return; }
-    // if last, show results
-    if(current < QUESTIONS.length-1){ current++; renderQuestion(); }
-    else { showResults(); }
-  });
+nextBtn.addEventListener('click', ()=>{
+  if(answers[current]===null){ errorBuzz(); return; }
+  // if last, show results
+  if(current < QUESTIONS.length-1){ current++; renderQuestion(); }
+  else { showResults(); }
+});
 
-  exportPdf.addEventListener('click', ()=>{ window.print(); });
+exportPdf.addEventListener('click', ()=>{ window.print(); });
 
-  // Better PDF/Print: open a printable window with styled summary
-  exportPdf.addEventListener('click', ()=>{
-    const html = generatePrintableHTML();
-    const w = window.open('','_blank','width=900,height=700');
-    if(!w) { errorBuzz(); return; }
-    w.document.write(html);
-    w.document.close();
-    // allow time to render then trigger print
-    setTimeout(()=>{ w.focus(); w.print(); }, 300);
-  });
+// Better PDF/Print: open a printable window with styled summary
+exportPdf.addEventListener('click', ()=>{
+  const html = generatePrintableHTML();
+  const w = window.open('','_blank','width=900,height=700');
+  if(!w) { errorBuzz(); return; }
+  w.document.write(html);
+  w.document.close();
+  // allow time to render then trigger print
+  setTimeout(()=>{ w.focus(); w.print(); }, 300);
+});
 
-  copySummary.addEventListener('click', async ()=>{
-    const summary = buildTextSummary();
-    try{
-      await navigator.clipboard.writeText(summary);
-      ping();
-    }catch(e){ errorBuzz(); }
-  });
+copySummary.addEventListener('click', async ()=>{
+  console.log('Copy summary clicked');
+  const summary = buildTextSummary();
+  try{
+    await navigator.clipboard.writeText(summary);
+    ping();
+  }catch(e){ console.log('Clipboard error:', e); errorBuzz(); }
+});
 
-  restartBtn.addEventListener('click', ()=>{
-    // reset
-    current=0; answers = new Array(QUESTIONS.length).fill(null);
-    resultScreen.classList.add('hidden');
-    quizScreen.classList.remove('hidden');
-    renderQuestion();
-  });
+restartBtn.addEventListener('click', ()=>{
+  console.log('Restart clicked');
+  // reset
+  current=0; answers = new Array(QUESTIONS.length).fill(null);
+  resultScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  renderQuestion();
+});
 
-  // accessibility: allow keyboard
-  document.addEventListener('keydown', (e)=>{
-    if(quizScreen.classList.contains('hidden')) return;
-    if(e.key==='ArrowRight') nextBtn.click();
-    if(e.key==='ArrowLeft') prevBtn.click();
-  });
+// accessibility: allow keyboard
+document.addEventListener('keydown', (e)=>{
+  if(quizScreen.classList.contains('hidden')) return;
+  if(e.key==='ArrowRight') nextBtn.click();
+  if(e.key==='ArrowLeft') prevBtn.click();
 });
 
 function renderQuestion(){
