@@ -4,12 +4,12 @@
   --panel-2:#1a1d20;
   --green:#30ff90;
   --soft-green:#66f2a9;
-  --muted:#000;
+  --muted:#9aa0a6;
   --accent:#bfa85a;
   --red:#ff3333;
 }
 *{box-sizing:border-box;font-family:Inter,Segoe UI,Roboto,system-ui,Arial;background-repeat:no-repeat}
-html,body{height:100%;margin:0;color:var(--soft-green);background:var(--bg);}
+html,body{height:100%;margin:0;color:#fff;background:var(--bg);}
 .screen{min-height:100vh;display:flex;align-items:center;justify-content:center}
 .hidden{display:none}
 
