@@ -137,7 +137,6 @@ const profileCode = document.getElementById('profile-code');
 const breakdown = document.getElementById('breakdown');
 const directiveText = document.getElementById('directive-text');
 const exportPdf = document.getElementById('export-pdf');
-const downloadPdf = document.getElementById('download-pdf');
 const copySummary = document.getElementById('copy-summary');
 const restartBtn = document.getElementById('restart');
 
@@ -181,13 +180,60 @@ function typeBoot(){
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
   typeBoot();
-});
 
-beginBtn.addEventListener('click', ()=>{
-  clickSound();
-  bootScreen.classList.add('hidden');
-  quizScreen.classList.remove('hidden');
-  renderQuestion();
+  beginBtn.addEventListener('click', ()=>{
+    clickSound();
+    bootScreen.classList.add('hidden');
+    quizScreen.classList.remove('hidden');
+    renderQuestion();
+  });
+
+  prevBtn.addEventListener('click', ()=>{
+    if(current>0){ current--; renderQuestion(); }
+  });
+
+  nextBtn.addEventListener('click', ()=>{
+    if(answers[current]===null){ errorBuzz(); return; }
+    // if last, show results
+    if(current < QUESTIONS.length-1){ current++; renderQuestion(); }
+    else { showResults(); }
+  });
+
+  exportPdf.addEventListener('click', ()=>{ window.print(); });
+
+  // Better PDF/Print: open a printable window with styled summary
+  exportPdf.addEventListener('click', ()=>{
+    const html = generatePrintableHTML();
+    const w = window.open('','_blank','width=900,height=700');
+    if(!w) { errorBuzz(); return; }
+    w.document.write(html);
+    w.document.close();
+    // allow time to render then trigger print
+    setTimeout(()=>{ w.focus(); w.print(); }, 300);
+  });
+
+  copySummary.addEventListener('click', async ()=>{
+    const summary = buildTextSummary();
+    try{
+      await navigator.clipboard.writeText(summary);
+      ping();
+    }catch(e){ errorBuzz(); }
+  });
+
+  restartBtn.addEventListener('click', ()=>{
+    // reset
+    current=0; answers = new Array(QUESTIONS.length).fill(null);
+    resultScreen.classList.add('hidden');
+    quizScreen.classList.remove('hidden');
+    renderQuestion();
+  });
+
+  // accessibility: allow keyboard
+  document.addEventListener('keydown', (e)=>{
+    if(quizScreen.classList.contains('hidden')) return;
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
 });
 
 function renderQuestion(){
@@ -225,17 +271,6 @@ function selectOption(idx, el){
   clickSound();
   setTimeout(()=>{ nextBtn.disabled = false; }, 80);
 }
-
-prevBtn.addEventListener('click', ()=>{
-  if(current>0){ current--; renderQuestion(); }
-});
-
-nextBtn.addEventListener('click', ()=>{
-  if(answers[current]===null){ errorBuzz(); return; }
-  // if last, show results
-  if(current < QUESTIONS.length-1){ current++; renderQuestion(); }
-  else { showResults(); }
-});
 
 function showResults(){
   quizScreen.classList.add('hidden');
@@ -309,47 +344,6 @@ function deriveDirective(){
   return 'Reflect and pick one small, decisive action to build momentum.';
 }
 
-exportPdf.addEventListener('click', ()=>{ window.print(); });
-
-// Better PDF/Print: open a printable window with styled summary
-exportPdf.addEventListener('click', ()=>{
-  const html = generatePrintableHTML();
-  const w = window.open('','_blank','width=900,height=700');
-  if(!w) { errorBuzz(); return; }
-  w.document.write(html);
-  w.document.close();
-  // allow time to render then trigger print
-  setTimeout(()=>{ w.focus(); w.print(); }, 300);
-});
-
-downloadPdf.addEventListener('click', ()=>{
-  const element = document.getElementById('result-card');
-  const opt = {
-    margin: 1,
-    filename: `${codenameText.textContent.replace(/\s+/g, '_')}_Profile.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, backgroundColor: '#000000' },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(element).save();
-});
-
-copySummary.addEventListener('click', async ()=>{
-  const summary = buildTextSummary();
-  try{
-    await navigator.clipboard.writeText(summary);
-    ping();
-  }catch(e){ errorBuzz(); }
-});
-
-restartBtn.addEventListener('click', ()=>{
-  // reset
-  current=0; answers = new Array(QUESTIONS.length).fill(null);
-  resultScreen.classList.add('hidden');
-  quizScreen.classList.remove('hidden');
-  renderQuestion();
-});
-
 function buildTextSummary(){
   let s = 'MASCULINE PROFILE QUIZ - Tactical Briefing\n\n';
   s += `Codename: ${codenameText.textContent} \nProfile code: ${profileCode.textContent}\n\n`;
@@ -383,10 +377,3 @@ function generatePrintableHTML(){
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:Arial,Helvetica,sans-serif;margin:20px;color:#000000}hr{border:none;border-top:1px solid #eee;margin:14px 0}</style></head><body>${body}</body></html>`;
   return html;
 }
-
-// accessibility: allow keyboard
-document.addEventListener('keydown', (e)=>{
-  if(quizScreen.classList.contains('hidden')) return;
-  if(e.key==='ArrowRight') nextBtn.click();
-  if(e.key==='ArrowLeft') prevBtn.click();
-});
