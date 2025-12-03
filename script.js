@@ -282,12 +282,30 @@ function buildResult(){
 }
 
 function deriveDirective(){
-  // simple short roadmap using answers
-  const major = answers[0];
-  if(major===0) return 'Schedule deliberate solitude to consolidate plan; invite one ally for strategic feedback.';
-  if(major===1) return 'Turn thought into a short action list; execute one small decision daily.';
-  if(major===2) return 'Channel control into delegation; practice releasing a minor task to test trust.';
-  if(major===3) return 'Clarify mission for the next 90 days; make a measurable milestone.';
+  // Derive directive based on all 7 answers by counting frequencies of A, B, C, D
+  const counts = {A:0, B:0, C:0, D:0};
+  answers.forEach(ans => {
+    if(ans !== null){
+      const letter = ['A','B','C','D'][ans];
+      counts[letter]++;
+    }
+  });
+  // Find the most frequent letter
+  let maxCount = 0;
+  let dominant = 'A'; // default
+  for(const [key, count] of Object.entries(counts)){
+    if(count > maxCount){
+      maxCount = count;
+      dominant = key;
+    }
+  }
+  // If tie, prefer the one from the last question
+  if(maxCount === 0) return 'Reflect and pick one small, decisive action to build momentum.';
+  // Map to directive
+  if(dominant === 'A') return 'Schedule deliberate solitude to consolidate plan; invite one ally for strategic feedback.';
+  if(dominant === 'B') return 'Turn thought into a short action list; execute one small decision daily.';
+  if(dominant === 'C') return 'Channel control into delegation; practice releasing a minor task to test trust.';
+  if(dominant === 'D') return 'Clarify mission for the next 90 days; make a measurable milestone.';
   return 'Reflect and pick one small, decisive action to build momentum.';
 }
 
@@ -348,21 +366,21 @@ function buildTextSummary(){
 function generatePrintableHTML(){
   // Build a simple HTML document styled for print
   const title = codenameText.textContent;
-  let body = `<h1 style="font-family:Arial,Helvetica,sans-serif;color:#111">${title}</h1>`;
-  body += `<p style="font-family:Arial;color:#333"><strong>Profile code:</strong> ${profileCode.textContent}</p>`;
+  let body = `<h1 style="font-family:Arial,Helvetica,sans-serif;color:#000000">${title}</h1>`;
+  body += `<p style="font-family:Arial;color:#000000"><strong>Profile code:</strong> ${profileCode.textContent}</p>`;
   body += '<hr/>';
   QUESTIONS.forEach((q,idx)=>{
     const chosen = answers[idx];
     const letter = ['A','B','C','D'][chosen] || '?';
     const data = RESULTS[q.id][letter] || {};
-    body += `<h3 style="font-family:Arial;color:#111;margin-bottom:6px">${q.title} — ${data.title||'Unknown'}</h3>`;
-    body += `<p style="color:#444;margin-top:0">${(data.desc||'')}</p>`;
-    body += `<p style="color:#666;font-size:13px;margin-top:6px"><strong>Strength:</strong> ${(data.strength||'—')}<br/><strong>Weakness:</strong> ${(data.weakness||'—')}</p>`;
+    body += `<h3 style="font-family:Arial;color:#000000;margin-bottom:6px">${q.title} — ${data.title||'Unknown'}</h3>`;
+    body += `<p style="color:#000000;margin-top:0">${(data.desc||'')}</p>`;
+    body += `<p style="color:#000000;font-size:13px;margin-top:6px"><strong>Strength:</strong> ${(data.strength||'—')}<br/><strong>Weakness:</strong> ${(data.weakness||'—')}</p>`;
     body += '<hr/>';
   });
-  body += `<h3>Directive</h3><p>${directiveText.textContent}</p>`;
+  body += `<h3 style="color:#000000">Directive</h3><p style="color:#000000">${directiveText.textContent}</p>`;
 
-  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:Arial,Helvetica,sans-serif;margin:20px;color:#111}hr{border:none;border-top:1px solid #eee;margin:14px 0}</style></head><body>${body}</body></html>`;
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:Arial,Helvetica,sans-serif;margin:20px;color:#000000}hr{border:none;border-top:1px solid #eee;margin:14px 0}</style></head><body>${body}</body></html>`;
   return html;
 }
 
